@@ -1,0 +1,13 @@
+<script type="text/javascript">
+
+  $(document).ready( function() {
+    if( getParameterByName("p") === "" ) {
+      window.location = "//www.evergram.co/connect-failed";
+      return;
+    }
+      // Initialize the SDK
+      OAuth.initialize('1smAru_kNdKEuYlTTKaqsZuLIzE')
+      OAuth.redirect('instagram', 'http://www.evergram.co/signup-step-2/?p=' + getParameterByName("p"));
+    
+  });
+</script>
