@@ -148,7 +148,7 @@
 					.fail(function(data) {
 
 					   	console.log( data );
-						$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong.<br>" + showErrors(JSON.parse(data.responseText)) + "<br><br>If this is something you need help with, please feel free to contact us on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a>.");
+						$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong.<br>" + showErrors(data.responseText) + "<br><br>If this is something you need help with, please feel free to contact us on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a>.");
 			      		$("#error-msg").show();
 
 				        console.log("response complete");
@@ -186,12 +186,16 @@ function toggleSubmitButton(state) {
 
 function showErrors(data) {
 
-	var returnVal = "<ul>";
-	alert(data.length);
-	for( var i=0; i < data.length; i++ ) {
-		returnVal += "<li>" + data[i].msg + "</li>";
+	try {
+		var json = JSON.parse(data);
+		var returnVal = "<ul>";
+		for( var i=0; i < json.length; i++ ) {
+			returnVal += "<li>" + json[i].msg + "</li>";
+		}
+		return returnVal + "</ul>";
+	} catch (err) {
+		return data;	// must just be a string error message.
 	}
-	return returnVal + "</ul>";
 }
 
 </script>
