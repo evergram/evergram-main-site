@@ -18,7 +18,7 @@
 
   var userData;
 
-  $(document).ready(function () {
+  $(document).ready(function() {
 
     if ((getParameterByName("p") === "")) {
       //window.location = SITE_URL + "/connect-failed";
@@ -33,7 +33,7 @@
     } else {
 
       /* handle the callback from OAuth to capture access_token and username */
-      OAuth.callback(function (error, success) {
+      OAuth.callback(function(error, success) {
 
         if (error) {
           window.location = SITE_URL + "/connect-failed/?p=" + getParameterByName("p");
@@ -89,7 +89,7 @@
         postcode: "Enter your post code",
         country: "Enter your country"
       },
-      invalidHandler: function (event, validator) {
+      invalidHandler: function(event, validator) {
         // 'this' refers to the form
 
         var errors = validator.numberOfInvalids();
@@ -104,7 +104,7 @@
           $("#error-msg").hide();
         }
       },
-      submitHandler: function (form) {
+      submitHandler: function(form) {
         // disable the submit button to prevent repeated clicks
         toggleSubmitButton("disable");
 
@@ -127,48 +127,53 @@
 
       if (response.error) {
         // show the stripe errors on the form
-        $("#error-msg").html("<i class='fa fa-exclamation-triangle'></i> Whoa nelly... " + response.error.message + " Might need to take another look.");
+        $("#error-msg").html("<i class='fa fa-exclamation-triangle'></i> Whoa nelly... " + response.error.message +
+        " Might need to take another look.");
         $("#error-msg").show();
         toggleSubmitButton("enable");
       } else {
         console.log('Sending POST Request...');
 
-        $.post(
-          API_ENDPOINT + '/user/' + $("#USER_ID").val(),
-          {
-            stripeToken: response.id,
-            plan: $("#PLAN").val(),
-            fname: $("#fname").val(),
-            lname: $("#lname").val(),
-            email: $("#email").val(),
-            address: $("#address").val(),
-            city: $("#city").val(),
-            state: $("#state").val(),
-            postcode: $("#postcode").val(),
-            country: $("#country").val()
+        $.ajax({
+            url: API_ENDPOINT + '/user/' + $("#USER_ID").val(),
+            type: 'PUT',
+            data: {
+              stripeToken: response.id,
+              plan: $("#PLAN").val(),
+              fname: $("#fname").val(),
+              lname: $("#lname").val(),
+              email: $("#email").val(),
+              address: $("#address").val(),
+              city: $("#city").val(),
+              state: $("#state").val(),
+              postcode: $("#postcode").val(),
+              country: $("#country").val()
+            }
           })
-          .fail(function (data) {
-
+          .fail(function(data) {
             console.log(data);
-            $('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong.<br>" + showErrors(data.responseText) + "<br><br>If this is something you need help with, please feel free to contact us on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a>.");
+            $('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong.<br>" +
+            showErrors(data.responseText) +
+            "<br><br>If this is something you need help with, please feel free to contact us on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a>.");
             $("#error-msg").show();
 
             console.log("response complete");
             toggleSubmitButton("enable");
           })
-          .done(function (data) {
-
+          .done(function(data) {
             //success
             console.log('...POST Success.');
-            window.location = SITE_URL + "/signup-complete.html";
             console.log("response complete");
-            toggleSubmitButton("enable");
             $("#error-msg").hide();
+            window.location = SITE_URL + "/signup-complete.html";
+
+            //save the
           });
       }
     } catch (err) {
       // user data isn't complete so throw an error.
-      $('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a> quoting this message...<br>" + err);
+      $('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a> quoting this message...<br>" +
+      err);
       $("#error-msg").show();
       console.log("response complete");
       toggleSubmitButton("enable");
