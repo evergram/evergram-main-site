@@ -111,33 +111,35 @@
 				toggleSubmitButton("enable");
 	        } else {
 
-	            $.post(
-	                API_ENDPOINT + '/user/' + $("#ID").val(),
-	                {
-	                    stripeToken : response.id,
-	                	plan : $("#PLAN").val(),
-	                    fname : $("#fname").val(),
-	                    lname : $("#lname").val(),
-	                    email : $("#email").val(),
-	                    address : $("#address").val(),
-	                    city : $("#city").val(),
-	                    state : $("#state").val(),
-	                    postcode : $("#postcode").val(),
-	                    country : $("#country").val()
-	                })
-					.fail(function(data) {
+	            $.ajax({
+					url: API_ENDPOINT + '/user/' + $("#ID").val(),
+					type: 'PUT',
+					data: {
+						stripeToken: response.id,
+						plan: $("#PLAN").val(),
+						fname: $("#fname").val(),
+						lname: $("#lname").val(),
+						email: $("#email").val(),
+						address: $("#address").val(),
+						city: $("#city").val(),
+						state: $("#state").val(),
+						postcode: $("#postcode").val(),
+						country: $("#country").val()
+					}
+		        })
+				.fail(function(data) {
+					Console.log(data.responseText);
+					$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
+		      		$("#error-msg").show();
+			        toggleSubmitButton("enable");
+				})
+				.done(function(data) {
 
-						$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
-			      		$("#error-msg").show();
-				        toggleSubmitButton("enable");
-					})
-					.done(function(data) {
-
-	                	//success
-	                    window.location = SITE_URL + "/signup-complete";
-				        toggleSubmitButton("enable");
-			      		$("#error-msg").hide();
-					});
+                	//success
+                    window.location = SITE_URL + "/signup-complete";
+			        toggleSubmitButton("enable");
+		      		$("#error-msg").hide();
+				});
 	        }
 	    } catch (err) {
 	    	// user data isn't complete so throw an error.
