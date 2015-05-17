@@ -128,7 +128,7 @@
 					}
 		        })
 				.fail(function(data) {
-					Console.log(data.responseText);
+					console.log(data.responseText);
 					$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
 		      		$("#error-msg").show();
 			        toggleSubmitButton("enable");
@@ -162,17 +162,17 @@ function toggleSubmitButton(state) {
 
 function showErrors(data) {
   
-	try {
-		var json = JSON.parse(data);
-		var returnVal = "<ul>";
+	var json = JSON.parse(data);
+	var returnVal = "<ul>";
+
+	if(json.length) {	// multiple errors returned
 		for( var i=0; i < json.length; i++ ) {
 			returnVal += "<li>" + json[i].msg + "</li>";
 		}
-		return returnVal + "</ul>";
+	} else
+		returnVal += "<li>" + json.msg + "</li>";
 	
-	} catch (err) {
-		return data;	// must just be a string error message.
-	}
+	return returnVal + "</ul>";
 }
 </script>
 
