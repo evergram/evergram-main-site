@@ -1,34 +1,31 @@
-<!-- // HEAD CODE INJECTION -->
-<meta name="robots" content="noindex">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-
-<!-- // PAGE CODE INJECTION -->
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 <script>
-
-    var MODE = "TEST";	// NOTE: Remove Test statement when publishing to productiong
-	var API_ENDPOINT, SITE_URL;
-
-	// NOTE: Remove Test statement when publishing to productiong
-	if( MODE == "TEST") {
-		Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ');	// TEST KEY
-		API_ENDPOINT = "//localhost:8080";
-		SITE_URL = "//localhost:9000";
-	}
-    else {
-    	API_ENDPOINT = "//api.evergram.co";
-		SITE_URL = "//www.printwithpixy.com";
-    }
 
     var userData;
 
     $(document).ready(function() {
 
-		$("#PLAN").val(getParameterByName("p"));
-		$("#ID").val(getParameterByName("id"));
+    	if( (getParameterByName("e") === "") ) {
+	      window.location = "//www.evergram.co/giftcard-failed";
+	      return;
+	    } 
 
+    	/* handle the callback from OAuth to capture access_token and username */
+		OAuth.callback(function (error, success) {
+		  	
+			if (error) {
+		      window.location = "//www.evergram.co/giftcard-failed/?e=" + getParameterByName("e");
+				return;
+			}
+			
+			// store in hidden form fields
+		  	$("#IG_USERNAME").val(success.user.username);
+			$("#IG_ACCESS_TOKEN").val(success.access_token);
+			$("#PLAN").val("ANNL");
+			$("#email").val(getParameterByName("e"));
+
+		});
 
         //$("#payment-form").submit(function(event) {
 		$("#payment-form").validate({
@@ -71,34 +68,36 @@
 	            // disable the submit button to prevent repeated clicks
 	            toggleSubmitButton("disable");
 	            
-	            $.ajax({
-					url: API_ENDPOINT + '/user/' + $("#ID").val(),
-					type: 'PUT',
-					data: {
-						plan: $("#PLAN").val(),
-						fname: $("#fname").val(),
-						lname: $("#lname").val(),
-						email: $("#email").val(),
-						address: $("#address").val(),
-						city: $("#city").val(),
-						state: $("#state").val(),
-						postcode: $("#postcode").val(),
-						country: $("#country").val()
-					}
-		        })
-				.fail(function(data) {
-					console.log(data.responseText);
-					$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@printwithpixy.com' target='_blank'>help@printwithpixy.com</a> quoting this message.");
-		      		$("#error-msg").show();
-			        toggleSubmitButton("enable");
-				})
-				.done(function(data) {
+	            $.post(
+	                'https://zapier.com/hooks/catch/ojg0pb/',
+	                {
+	                    date: "",
+	                	plan : $("#PLAN").val(),
+	                    instagram_id : $("#IG_USERNAME").val(),
+	                    instagram_accesstoken: $("#IG_ACCESS_TOKEN").val(),
+	                    fname : $("#fname").val(),
+	                    lname : $("#lname").val(),
+	                    email : $("#email").val(),
+	                    address : $("#address").val(),
+	                    city : $("#city").val(),
+	                    state : $("#state").val(),
+	                    postcode : $("#postcode").val(),
+	                    country : $("#country").val()
+	                })
+					.fail(function(data) {
 
-                	//success
-                    window.location = SITE_URL + "/giftcard-complete";
-			        toggleSubmitButton("enable");
-		      		$("#error-msg").hide();
-				});
+						$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a> quoting this message.");
+			      		$("#error-msg").show();
+				        toggleSubmitButton("enable");
+					})
+					.done(function(data) {
+
+	                	//success
+					    console.log('...POST Success.');
+	                    window.location = "//www.evergram.co/giftcard-complete";
+				        toggleSubmitButton("enable");
+			      		$("#error-msg").hide();
+					});
 
 	            return false; // submit is done from callback
         	}
@@ -152,7 +151,8 @@ function toggleSubmitButton(state) {
 
 				<form id="payment-form">
 
-					<input type="hidden" id="ID">
+					<input type="hidden" id="IG_USERNAME">
+					<input type="hidden" id="IG_ACCESS_TOKEN">
 					<input type="hidden" id="PLAN">
 
 					<h3>A little about you...</h3>
