@@ -13,10 +13,7 @@ $(document).ready(function() {
 		plan: localStorage.getItem('plan')
 	});
 
-  	$("a[href='http://api.evergram.co/auth/instagram']").attr("href","http://api.evergram.co/auth/instagram?p=" + getParameterByName("p") + "&redirect_url=" + encodeURIComponent("http://localhost:9000/redeem-step-2"));
-    /*
-    // SQRSPCE TODO: Add http://api.printwithpixy.com/v1/auth/instagram? to button href
-    $("a[href='http://api.printwithpixy.com/v1/auth/instagram']").attr("href","//api.printwithpixy.com/v1/auth/instagram?plan=" + localStorage.getItem('plan') + "&redirect_url=" + encodeURIComponent("http://www.printwithpixy.com/redeem-step-2"));
-    */
+	// SQRSPCE TODO: Add http://api.printwithpixy.com/v1/auth/instagram? to button href
+    $("a[href='http://api.printwithpixy.com/v1/auth/instagram']").attr("href","//api.printwithpixy.com/v1/auth/instagram?redirect_url=" + encodeURIComponent("http://localhost:9000/redeem-step-2"));
 });
 </script>

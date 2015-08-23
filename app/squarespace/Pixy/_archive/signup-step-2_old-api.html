@@ -14,12 +14,12 @@
 	// NOTE: Remove Test statement when publishing to productiong
 	if( MODE == "TEST") {
 		Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ');	// TEST KEY
-		API_ENDPOINT = "//localhost:8080/v1";
+		API_ENDPOINT = "//localhost:8080";
 		SITE_URL = "//localhost:9000";
 	}
     else {
     	Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');		//LIVE KEY
-    	API_ENDPOINT = "//api.printwithpixy.com/v1";
+    	API_ENDPOINT = "//api.evergram.co";
 		SITE_URL = "//www.printwithpixy.com";
     }
 
@@ -27,17 +27,16 @@
 
     $(document).ready(function() {
 
-    	// TODO: Verify if we need this anymore. If plan doesn't exist in stripe, user shouldn't be able to complete signup anyway. With ID, not sure if this is even possible.
-    	/*if( (getParameterByName("p") === "") || (getParameterByName("id") === "") ) {
+    	if( (getParameterByName("p") === "") || (getParameterByName("id") === "") ) {
 	      window.location = SITE_URL + "/signup-error";
 	      return;
-	    }*/
+	    } 
 
-		$("#PLAN").val(localStorage.getItem('plan'));
+		$("#PLAN").val(getParameterByName("p"));
 		$("#ID").val(getParameterByName("id"));
 
+		window.analytics.alias($("#ID").val()); 
 		window.analytics.identify($("#ID").val());
-		window.analytics.alias($("#ID").val());
 
     	// define plan related messaging based on querystring value p
 		if( getParameterByName("p") == "PAYG" ) {
@@ -48,6 +47,15 @@
 				"<p>As a Pay per photo customer, your card will be debited at the end of the month based how many photos your tag. <strong>No photos? No charge.</strong> Simple. :)</p>"
 				);
 		} 
+      /*else {
+			$("#plan-msg").html(
+				"<p>You selected our <br/>" +
+				"	<span style='font-size:22px; font-weight:bold'>Unlimited plan</span><br/>" +
+				"	Unlimited photos for $9.99 /month<br/>" +
+				"	Delivery included</p>" +
+				"<p>As an Unlimited customer, your card will be debited $9.99 each month, starting today.</p>"
+				);
+		}*/
 
 		$("#payment-form").validate({
 			rules: {
@@ -112,120 +120,40 @@
 				toggleSubmitButton("enable");
 	        } else {
 
-	        	var stripeToken = response.id;
-
-	            // Process...
-				// PATCH /v1/users/:id --> Update the user with the plan, address and name.
-				// POST /v1/payment-gateways/stripe/customer --> Creates the stripe customer with the passed in details.
-				// PATCH /v1/users/:id --> Update the user with the stripe customer ID, set signupComplete = true
-				// POST /v1/events/signed-up --> Track signup event.
-
-				// PATCH /v1/users/:id --> Update the user with the plan, address and name.
 	            $.ajax({
-					url: API_ENDPOINT + '/users/' + $("#ID").val(),
-					type: 'PATCH',
+					url: API_ENDPOINT + '/user/' + $("#ID").val(),
+					type: 'PUT',
 					data: {
-						firstName: $("#fname").val(),
-						lastName: $("#lname").val(),
+						stripeToken: response.id,
+						plan: $("#PLAN").val(),
+						fname: $("#fname").val(),
+						lname: $("#lname").val(),
 						email: $("#email").val(),
-						billing: {
-							option: $("#PLAN").val()
-						},
-						address: {
-							line1: $("#address").val(),
-							city: $("#city").val(),
-							state: $("#state").val(),
-							postcode: $("#postcode").val(),
-							country: $("#country").val()
-						}
+						address: $("#address").val(),
+						city: $("#city").val(),
+						state: $("#state").val(),
+						postcode: $("#postcode").val(),
+						country: $("#country").val()
 					}
 		        })
 				.fail(function(data) {
-					// updating user details failed.
-					// TODO: Add richer error messaging
-					showError(JSON.parse(data.responseText).message);
+					console.log(data.responseText);
+					$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
+		      		$("#error-msg").show();
 			        toggleSubmitButton("enable");
 				})
 				.done(function(data) {
-					// updating user details complete.
 
-					// create stripe customer
-					// POST /v1/payment-gateways/stripe/customer --> Creates the stripe customer with the passed in details.
-					$.ajax({
-						url: API_ENDPOINT + '/payment-gateways/stripe/customer',
-						type: 'POST',
-						data: {
-							email: data.email,
-				            plan: $("#PLAN").val(),
-				            source: stripeToken,
-				            metadata: {
-				            	pixy_customer_id: $("#ID").val(),
-				                instagram_id: data.instagram.id,
-				                first_name: data.firstName,
-				                last_name: data.lastName,
-				                instagram_username: data.instagram.username
-				            }
-						}
-			        })
-					.fail(function(data) { 
-						// creating customer in Stripe failed.
-						// TODO: Add richer error messaging
-						showError(JSON.parse(data.responseText).message);
-			        	toggleSubmitButton("enable");
-					})
-					.done(function(data) {
-						// customer successfully created in Stripe
-
-						// Update user details in database
-						// PATCH /v1/user/:id --> Update the user with the stripe customer ID, set signupComplete = true
-						$.ajax({
-							url: API_ENDPOINT + '/users/' + $("#ID").val(),
-							type: 'PATCH',
-							data: {
-								billing: {
-								    stripeId: data.id,
-								    option: $("#PLAN").val()
-								},
-            					signupComplete: true
-							}
-				        })
-				        .fail( function(data) {
-							// updating user details failed.
-							// TODO: Add richer error messaging
-							showError(JSON.parse(data.responseText).message);
-				        	toggleSubmitButton("enable");
-				        })
-				        .done( function(data) {
-							// All user creation tasks complete. Re-direct user to thankyou page.
-							// POST /v1/events/signed-up --> Track signup event.
-							$.ajax({
-								url: API_ENDPOINT + '/events/signed-up',
-								type: 'POST',
-								data: {
-								  	data: {
-								    	relationships: {
-								      		user: {
-								        		data: {
-										          type: "user",
-										          id: $("#ID").val()
-								        		}
-								      		}
-								    	}
-								  	}
-								}
-					        })
-
-		                    window.location = SITE_URL + "/signup-complete";
-					        toggleSubmitButton("enable");
-				      		$("#error-msg").hide();
-				        });
-                		
-			      	});
+                	//success
+                    window.location = SITE_URL + "/signup-complete";
+			        toggleSubmitButton("enable");
+		      		$("#error-msg").hide();
 				});
 	        }
 	    } catch (err) {
-	    	// user data isn't complete so throw an error.  TODO: Not sure if this is needed anymore.
-			showError(err);
+	    	// user data isn't complete so throw an error.
+			$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@evergram.co' target='_blank'>help@evergram.co</a> quoting this message...<br>" + err);
+			$("#error-msg").show();
 			toggleSubmitButton("enable");
 	    }
     }
@@ -241,12 +169,19 @@ function toggleSubmitButton(state) {
     }
 }
 
-function showError(message) {
+function showErrors(data) {
+  
+	var json = JSON.parse(data);
+	var returnVal = "<ul>";
 
-	//console.log(message);
-	$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@printwithpixy.com' target='_blank'>help@printwithpixy.com</a> quoting this message.<br><br><em>\"" + message + "\"</em>");
+	if(json.length) {	// multiple errors returned
+		for( var i=0; i < json.length; i++ ) {
+			returnVal += "<li>" + json[i].msg + "</li>";
+		}
+	} else
+		returnVal += "<li>" + json.msg + "</li>";
 	
-	$("#error-msg").show();
+	return returnVal + "</ul>";
 }
 </script>
 

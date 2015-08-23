@@ -2,13 +2,19 @@
 <meta name="robots" content="noindex">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
-
 <!-- // PAGE CODE INJECTION -->
 <script type="text/javascript">
 $(document).ready(function() {
-	analytics.track('Start signup', {
-		plan: getParameterByName("p")
+
+	localStorage.setItem('plan', getParameterByName("p"));
+
+    analytics.track('Start signup', {
+		plan: localStorage.getItem('plan')
 	});
-  	$("a[href='http://api.evergram.co/auth/instagram']").attr("href","http://api.evergram.co/auth/instagram?p=" + getParameterByName("p"));
+
+  	// SQRSPCE TODO: Add http://api.printwithpixy.com/v1/auth/instagram? to button href
+    $("a[href='http://api.printwithpixy.com/v1/auth/instagram']").attr("href","//localhost:8080/v1/auth/instagram");
 });
-</script>
+</script>	
+
+<a class="btn btn-lg btn-success" href="http://api.printwithpixy.com/v1/auth/instagram">Connect your instagram</a>

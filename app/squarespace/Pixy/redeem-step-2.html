@@ -16,7 +16,6 @@
 		//Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ');	// TEST KEY
 		API_ENDPOINT = "//localhost:8080/v1";
 		SITE_URL = "//localhost:9000";
-		localStorage.setItem('plan', getParameterByName("p"));
 	}
     else {
     	//Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');		//LIVE KEY
@@ -200,7 +199,7 @@ function toggleSubmitButton(state) {
 
 function showError(message) {
 
-	console.log(message);
+	//console.log(message);
 	$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@printwithpixy.com' target='_blank'>help@printwithpixy.com</a> quoting this message.<br><br><em>\"" + message + "\"</em>");
 	
 	$("#error-msg").show();
