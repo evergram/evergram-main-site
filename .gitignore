@@ -1,8 +1,6 @@
-dist
-.tmp
-.sass-cache
-bower_components
-test/bower_components
-**/node_modules/**
-.idea
-*.iml
+node_modules/
+bower_components/
+.sass-cache/
+.idea/
+.tmp/
+dist/
