@@ -1,20 +1,10 @@
-<script src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+
 <script>
 
-	var MODE = "TEST";
 	var API_ENDPOINT, SITE_URL;
-
-	if( MODE == "TEST") {
-		Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ');	// TEST KEY
-		API_ENDPOINT = "//localhost:8080";
-		SITE_URL = "//localhost:9000";
-	}
-    else {
-    	Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');		//LIVE KEY
-    	API_ENDPOINT = "//api.evergram.co";
-		SITE_URL = "//www.evergram.co";
-    }
+	Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');
+    API_ENDPOINT = "//api.evergram.co";
+	SITE_URL = "//www.evergram.co";
 
     var userData;
 
@@ -111,35 +101,33 @@
 				toggleSubmitButton("enable");
 	        } else {
 
-	            $.ajax({
-					url: API_ENDPOINT + '/user/' + $("#ID").val(),
-					type: 'PUT',
-					data: {
-						stripeToken: response.id,
-						plan: $("#PLAN").val(),
-						fname: $("#fname").val(),
-						lname: $("#lname").val(),
-						email: $("#email").val(),
-						address: $("#address").val(),
-						city: $("#city").val(),
-						state: $("#state").val(),
-						postcode: $("#postcode").val(),
-						country: $("#country").val()
-					}
-		        })
-				.fail(function(data) {
-					console.log(data.responseText);
-					$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
-		      		$("#error-msg").show();
-			        toggleSubmitButton("enable");
-				})
-				.done(function(data) {
+	            $.post(
+	                API_ENDPOINT + '/user/' + $("#ID").val(),
+	                {
+	                    stripeToken : response.id,
+	                	plan : $("#PLAN").val(),
+	                    fname : $("#fname").val(),
+	                    lname : $("#lname").val(),
+	                    email : $("#email").val(),
+	                    address : $("#address").val(),
+	                    city : $("#city").val(),
+	                    state : $("#state").val(),
+	                    postcode : $("#postcode").val(),
+	                    country : $("#country").val()
+	                })
+					.fail(function(data) {
 
-                	//success
-                    window.location = SITE_URL + "/signup-complete";
-			        toggleSubmitButton("enable");
-		      		$("#error-msg").hide();
-				});
+						$('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. <br>" + showErrors(data.responseText));
+			      		$("#error-msg").show();
+				        toggleSubmitButton("enable");
+					})
+					.done(function(data) {
+
+	                	//success
+	                    window.location = SITE_URL + "/signup-complete";
+				        toggleSubmitButton("enable");
+			      		$("#error-msg").hide();
+					});
 	        }
 	    } catch (err) {
 	    	// user data isn't complete so throw an error.
@@ -162,17 +150,17 @@ function toggleSubmitButton(state) {
 
 function showErrors(data) {
   
-	var json = JSON.parse(data);
-	var returnVal = "<ul>";
-
-	if(json.length) {	// multiple errors returned
+	try {
+		var json = JSON.parse(data);
+		var returnVal = "<ul>";
 		for( var i=0; i < json.length; i++ ) {
 			returnVal += "<li>" + json[i].msg + "</li>";
 		}
-	} else
-		returnVal += "<li>" + json.msg + "</li>";
+		return returnVal + "</ul>";
 	
-	return returnVal + "</ul>";
+	} catch (err) {
+		return data;	// must just be a string error message.
+	}
 }
 </script>
 

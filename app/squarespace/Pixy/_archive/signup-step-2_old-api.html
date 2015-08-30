@@ -1,10 +1,17 @@
+<!-- // HEAD CODE INJECTION -->
+<meta name="robots" content="noindex">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <script src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
-<script>
 
-	var MODE = "TEST";
+
+<!-- // PAGE CODE INJECTION -->
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script>
+	var MODE = "TEST";	// NOTE: Remove Test statement when publishing to productiong
 	var API_ENDPOINT, SITE_URL;
 
+	// NOTE: Remove Test statement when publishing to productiong
 	if( MODE == "TEST") {
 		Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ');	// TEST KEY
 		API_ENDPOINT = "//localhost:8080";
@@ -13,7 +20,7 @@
     else {
     	Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');		//LIVE KEY
     	API_ENDPOINT = "//api.evergram.co";
-		SITE_URL = "//www.evergram.co";
+		SITE_URL = "//www.printwithpixy.com";
     }
 
     var userData;
@@ -28,6 +35,8 @@
 		$("#PLAN").val(getParameterByName("p"));
 		$("#ID").val(getParameterByName("id"));
 
+		window.analytics.alias($("#ID").val()); 
+		window.analytics.identify($("#ID").val());
 
     	// define plan related messaging based on querystring value p
 		if( getParameterByName("p") == "PAYG" ) {

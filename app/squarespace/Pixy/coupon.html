@@ -1,0 +1,99 @@
+<!-- // HEAD CODE INJECTION -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+<!-- // PAGE CODE INJECTION -->
+<script>
+
+	var redeemURL = "http://www.printwithpixy.com/redeem?p=";
+
+	// Note: Coupon codes & plans must be uppercase
+	// format: { coupon code : Plan id }
+    var COUPON_CODES = { 
+    						"BINDLE" : "BINDLE-LIMIT-10",
+    						"OURLITTLEFOXES" : "FOXES-LIMIT-12"
+    					};
+
+
+    $(document).ready(function() {
+
+		// ON FORM SUBMIT CHECK IF CODE IS IN LIST, 
+		$('#coupon-form').submit(function(e) {
+
+			e.preventDefault();
+
+			var redirectURL;
+
+			$("#error-msg").hide();
+
+			try {
+
+				var plan = eval("COUPON_CODES." + $('#coupon').val().toUpperCase());
+				console.log("Plan=" +plan);
+				if( plan ) {
+					redirectURL = redeemURL + plan;
+					window.location = redirectURL;
+				} else {
+					$("#error-msg").html('We couldn\'t find that coupon code. Want a coupon? Email us at <a href="mailto:hello@printwithpixy.com?subject=Free photos voucher">hello@printwithpixy.com</a>');
+					$("#error-msg").show();
+				}
+
+			} catch (e) {
+				console.log(e);
+				$("#error-msg").html('We couldn\'t find that coupon code. Want a coupon? Email us at <a href="mailto:hello@printwithpixy.com?subject=Free photos voucher">hello@printwithpixy.com</a>');
+				$("#error-msg").show();
+			}
+		});
+	});
+
+</script>
+
+<style>
+#error-msg {
+	display: none;
+	margin-top:30px;
+	font-weight:bold; 
+	color: #f00;
+	padding: 20px; 
+	background-color: #FFE6E7;
+	border: 1px solid #f00;
+	border-radius: 3px;
+}
+.title {
+	padding-bottom: 10px;
+}
+.error {
+	color:#f00;
+}
+</style>
+
+<div class="sqs-block form-block sqs-block-form">
+	<div class="sqs-block-content">
+		<div class="form-wrapper">
+			<div class="form-inner-wrapper">
+
+				<form id="coupon-form">
+
+					<h3>Enter your coupon code...</h3>
+					<div class="field-list clear">
+
+						<div class="form-item field text required">
+		                  <input class="field-element text" type="text" id="coupon" name="coupon" required>
+		                </div>
+					</div>
+
+					<div id="error-msg"></div>
+
+				    <div class="sqs-block button-block sqs-block-button">
+				    	<div class="sqs-block-content">
+							<div class="sqs-block-button-container--center">
+								<button type="submit" class="submit-button sqs-block-button-element--medium sqs-block-button-element" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Submitting details...">Submit code</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
