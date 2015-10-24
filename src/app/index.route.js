@@ -6,10 +6,15 @@
         .config(routeConfig);
 
     /** @ngInject */
-    function routeConfig($stateProvider, $urlRouterProvider) {
+    function routeConfig($stateProvider, $locationProvider, $urlRouterProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+
         $stateProvider
-            .state('signup-step-1', {
-                url: '/signup-step-1',
+            .state('signup', {
+                url: '/signup',
                 templateUrl: 'app/signup/signup.html',
                 controller: 'SignupController',
                 controllerAs: 'signup'
