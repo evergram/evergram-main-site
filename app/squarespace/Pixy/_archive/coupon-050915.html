@@ -1,0 +1,121 @@
+<!-- // PAGE CODE INJECTION -->
+<script>
+
+	var redeemURL = "http://www.printwithpixy.com/redeem?p=";
+
+	// Note: Coupon codes & plans must be uppercase
+	// format: { coupon code : Plan id }
+    var COUPON_CODES = { 
+    						"BINDLE" : "BINDLE-LIMIT-10",
+    						"OURLITTLEFOXES" : "FOXES-LIMIT-12",
+    						"TREASURE" : "TREASURE-LIMIT-10"
+    					};
+	var redirectURL;
+    
+    $(document).ready(function() {
+
+		// ON FORM SUBMIT CHECK IF CODE IS IN LIST, 
+		$('#coupon-form').submit(function(e) {
+
+			e.preventDefault();
+
+			$("#error-msg, #redeem-msg").hide();
+
+			try {
+
+				var plan = eval("COUPON_CODES." + $('#coupon').val().toUpperCase());
+				console.log("Plan=" +plan);
+				if( plan ) {
+					redirectURL = redeemURL + plan;
+					$(".photo-count").text(plan.split("-")[2]);
+					$("#redeem-msg").show();
+				} else {
+					$("#error-msg").html('We couldn\'t find that coupon code. Want a coupon? Email us at <a href="mailto:hello@printwithpixy.com?subject=Free photos voucher">hello@printwithpixy.com</a>');
+					$("#error-msg").show();
+				}
+
+			} catch (e) {
+				console.log(e);
+				$("#error-msg").html('We couldn\'t find that coupon code. Want a coupon? Email us at <a href="mailto:hello@printwithpixy.com?subject=Free photos voucher">hello@printwithpixy.com</a>');
+				$("#error-msg").show();
+			}
+		});
+
+		$('#redeem-btn').click( function() {
+			window.location = redirectURL;
+		});
+	});
+
+</script>
+
+<style>
+#error-msg {
+	display: none;
+	margin-top:15px;
+	font-weight:bold; 
+	color: #f00;
+	padding: 20px; 
+	background-color: #FFE6E7;
+	border: 1px solid #f00;
+	border-radius: 3px;
+}
+#redeem-msg {
+	display: none;
+	margin-top:15px;
+	padding: 20px; 
+	background-color: #f5f5f5;
+	border: 1px solid #cccccc;
+	border-radius: 0px;
+}
+.title {
+	padding-bottom: 10px;
+}
+.error {
+	color:#f00;
+}
+</style>
+
+<div class="sqs-block form-block sqs-block-form">
+	<div class="sqs-block-content">
+		<div class="form-wrapper">
+			<div class="form-inner-wrapper">
+
+				<form id="coupon-form">
+
+					<h3>Enter your coupon code...</h3>
+					<div class="field-list clear">
+
+						<div class="form-item field text required">
+		                  <input class="field-element text" type="text" id="coupon" name="coupon" required>
+		                  <div class="sqs-block button-block sqs-block-button">
+					    	<div class="sqs-block-content">
+								<div class="sqs-block-button-container--center">
+									<button type="submit" class="submit-button sqs-block-button-element--medium sqs-block-button-element" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Submitting details...">Submit</button>
+								</div>
+							</div>
+						  </div>
+		                </div>
+					</div>
+
+					<div id="error-msg"></div>
+
+					<div id="redeem-msg">
+
+						<p>
+							Great news! <br>
+							Your coupon <b>entitles you to <span class="photo-count"></span> free photos.</b><br>
+							You lucky thing. Click the button below and follow the instructions to redeem your coupon.
+						</p>
+						<div class="sqs-block button-block sqs-block-button">
+					    	<div class="sqs-block-content">
+								<div class="sqs-block-button-container--center">
+									<button id="redeem-btn" type="button" class="submit-button sqs-block-button-element--medium sqs-block-button-element">Get your <span class="photo-count"></span> free photos</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
