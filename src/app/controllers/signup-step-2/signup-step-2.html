@@ -1,0 +1,26 @@
+<pixy-nav></pixy-nav>
+<div class="row content-area">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+        <div class="center">
+            <span class="sub-heading">STEP 2</span>
+
+            <h1>Create your account</h1>
+
+            <p>Finally we just need a few details so we can get you up and running with Pixy.</p>
+            <br>
+        </div>
+
+        <div id="error-msg"></div>
+
+        <customer-details parent-forms="step2.forms" parent-form="customerDetails" user="step2.user"></customer-details>
+        <address-details parent-forms="step2.forms" parent-form="addressDetails" user="step2.user"></address-details>
+        <payment-details></payment-details>
+
+        <div class="submit-button-block">
+            <button type="submit" class="btn btn-lg btn-block" ng-click="step2.complete()">
+                Complete Signup
+            </button>
+        </div>
+    </div>
+</div>
+<pixy-footer></pixy-footer>
