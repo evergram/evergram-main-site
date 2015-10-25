@@ -1,0 +1,9 @@
+<!-- // PAGE CODE INJECTION -->
+<script type="text/javascript">
+$(document).ready(function() {
+	window.analytics.track('Start signup', {
+		plan: getParameterByName("p")
+	});
+  	$("a[href='http://api.evergram.co/auth/instagram']").attr("href","http://api.evergram.co/auth/instagram?p=" + getParameterByName("p"));
+});
+</script>

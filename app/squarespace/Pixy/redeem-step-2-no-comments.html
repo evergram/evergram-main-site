@@ -1,0 +1,349 @@
+<!-- // HEAD CODE INJECTION -->
+<meta name="robots" content="noindex">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+<!-- // PAGE CODE INJECTION -->
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+
+    var MODE = "TEST";  // NOTE: Remove Test statement when publishing to productiong
+    var API_ENDPOINT, SITE_URL, USER;
+
+    // NOTE: Remove Test statement when publishing to productiong
+    if (MODE == "TEST") {
+        //Stripe.setPublishableKey('pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'); // TEST KEY
+        API_ENDPOINT = "//localhost:8080/v1";
+        SITE_URL = "//localhost:9000";
+    }
+    else {
+        //Stripe.setPublishableKey('pk_live_QAuikbQoj5IyU9wdrUlXl62v');     //LIVE KEY
+        API_ENDPOINT = "//api.printwithpixy.com/v1";
+        SITE_URL = "//www.printwithpixy.com";
+    }
+
+    var userData;
+
+    $(document).ready(function() {
+        $("#PLAN").val(localStorage.getItem('plan') || getParameterByName("p"));
+        $("#ID").val(getParameterByName("id"));
+
+        window.analytics.alias($("#ID").val());
+        window.analytics.identify($("#ID").val());
+
+        getUser($("#ID").val()).then(function(userData) {
+            USER = userData;
+            if (!!USER) {
+                if (USER.active && USER.signupComplete) {
+                    window.location = SITE_URL + "/redeem-complete";
+                } else {
+                    initUser(USER);
+                }
+
+                $("#payment-form").validate({
+                    rules: {
+                        fname: "required",
+                        lname: "required",
+                        email: "required",
+                        address: "required",
+                        city: "required",
+                        state: "required",
+                        postcode: "required",
+                        country: "required"
+                    },
+                    messages: {
+                        fname: "Please enter your first name",
+                        lname: "Please enter your last name",
+                        email: "Please enter a valid email address",
+                        address: "Enter your address",
+                        city: "Enter your city",
+                        state: "Enter your state",
+                        postcode: "Enter your post code",
+                        country: "Enter your country"
+                    },
+                    invalidHandler: function(event, validator) {
+
+                        var errors = validator.numberOfInvalids();
+                        if (errors) {
+                            var message = errors == 1
+                                    ? 'Whoa nelly... looks like you missed something. Might need to take another look.'
+                                    :
+                                    'Whoa nelly... looks like you missed a few things. Might need to take another look.';
+                            $("#error-msg").html("<i class='fa fa-exclamation-triangle'></i> " + message);
+                            $("#error-msg").show();
+                            toggleSubmitButton("enable");
+                        } else {
+                            $("#error-msg").hide();
+                        }
+                    },
+                    submitHandler: function(form) {
+                      
+                        toggleSubmitButton("disable");
+
+                        updateUser($("#ID").val(), {
+                            firstName: $("#fname").val(),
+                            lastName: $("#lname").val(),
+                            email: $("#email").val(),
+                            billing: {
+                                option: $("#PLAN").val(),
+                                stripeId: USER.billing.stripeId
+                            },
+                            address: {
+                                line1: $("#address").val(),
+                                suburb: $("#city").val(),
+                                state: $("#state").val(),
+                                postcode: $("#postcode").val(),
+                                country: $("#country").val()
+                            }
+                        }).fail(function(data) {
+                            showError(JSON.parse(data.responseText).message);
+                            toggleSubmitButton("enable");
+                        }).done(function(data) {
+                            var stripeCustomerData = {
+                                email: data.email,
+                                plan: $("#PLAN").val(),
+                                metadata: {
+                                    pixy_customer_id: $("#ID").val(),
+                                    instagram_id: data.instagram.id,
+                                    first_name: data.firstName,
+                                    last_name: data.lastName,
+                                    instagram_username: data.instagram.username
+                                }
+                            };
+
+                            var stripeService;
+                          
+                            if (!!data.billing.stripeId && data.billing.stripeId != '') {
+                              
+                                stripeService = updateStripeCustomer(data.billing.stripeId, stripeCustomerData);
+                            } else {
+                              
+                                stripeService = createStripeCustomer(stripeCustomerData);
+                            }
+
+                            stripeService.fail(function(data) {
+                                showError(JSON.parse(data.responseText).message);
+                                toggleSubmitButton("enable");
+                            }).done(function(data) {
+                                updateUser($("#ID").val(), {
+                                    billing: {
+                                        stripeId: data.id,
+                                        option: $("#PLAN").val()
+                                    },
+                                    signupComplete: true
+                                }).fail(function(data) {
+                                    showError(JSON.parse(data.responseText).message);
+                                    toggleSubmitButton("enable");
+                                }).done(function(data) {
+                                    trackEvent('signed-up', {
+                                        data: {
+                                            relationships: {
+                                                user: {
+                                                    data: {
+                                                        type: "user",
+                                                        id: $("#ID").val()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }).done(function(data) {
+                                        
+                                        window.location = SITE_URL + "/redeem-complete";
+                                        toggleSubmitButton("enable");
+                                        $("#error-msg").hide();
+                                    });
+                                });
+                            });
+                        });
+
+                        return false; 
+                    }
+                });
+            }
+        });
+    });
+
+    function toggleSubmitButton(state) {
+        if (state === "disable") {
+            $('.submit-button').attr("disabled", "disabled").html($('.submit-button').attr("data-loading-text"));
+        } else {
+          
+            $('.submit-button').removeAttr("disabled").html("Complete signup");
+        }
+    }
+
+    function showError(message) {
+      
+        $('#error-msg').html("<i class='fa fa-exclamation-triangle'></i> Uh oh... looks like something went wrong. Please contact us for help on <a href='mailto:help@printwithpixy.com' target='_blank'>help@printwithpixy.com</a> quoting this message.<br><br><em>\"" +
+                message + "\"</em>");
+
+        $("#error-msg").show();
+    }
+
+    function initUser(data) {
+        $("#fname").val(data.firstName);
+        $("#lname").val(data.lastName);
+        $("#email").val(data.email);
+        $("#address").val(data.address.line1);
+        $("#city").val(data.address.suburb);
+        $("#state").val(data.address.state);
+        $("#postcode").val(data.address.postcode);
+        $("#country").val(data.address.country);
+    }
+
+    function getUser(id) {
+        return $.ajax({
+            url: API_ENDPOINT + '/users/' + id,
+            type: 'GET'
+        });
+    }
+
+    function createStripeCustomer(data) {
+        return $.ajax({
+            url: API_ENDPOINT + '/payment-gateways/stripe/customer',
+            type: 'POST',
+            data: data
+        });
+    }
+
+    function updateStripeCustomer(id, data) {
+        return $.ajax({
+            url: API_ENDPOINT + '/payment-gateways/stripe/customer/' + id,
+            type: 'PATCH',
+            data: data
+        });
+    }
+
+    function updateUser(id, data) {
+        return $.ajax({
+            url: API_ENDPOINT + '/users/' + id,
+            type: 'PATCH',
+            data: data
+        });
+    }
+
+    function trackEvent(event, data) {
+        return $.ajax({
+            url: API_ENDPOINT + '/events/' + event,
+            type: 'POST',
+            data: data
+        });
+    }
+
+</script>
+
+<style>
+    .submit-button[disabled="disabled"] {
+        background-color: rgba(128, 128, 128, .5);
+        box-shadow: none;
+    }
+
+    .submit-button[disabled="disabled"]:hover {
+        background-color: rgba(128, 128, 128, .5);
+        box-shadow: none;
+    }
+
+    #error-msg {
+        display: none;
+        margin-top: 30px;
+        font-weight: bold;
+        color: #f00;
+        padding: 20px;
+        background-color: #FFE6E7;
+        border: 1px solid #f00;
+        border-radius: 3px;
+    }
+
+    .title {
+        padding-bottom: 10px;
+    }
+
+    .error {
+        color: #f00;
+    }
+</style>
+<div class="sqs-block form-block sqs-block-form">
+    <div class="sqs-block-content">
+        <div class="form-wrapper">
+            <div class="form-inner-wrapper">
+
+                <form id="payment-form">
+
+                    <input type="hidden" id="ID">
+                    <input type="hidden" id="PLAN">
+
+                    <h3>A little about you...</h3>
+
+                    <div class="field-list clear">
+
+                        <fieldset class="form-item fields name required">
+                            <div class="title">Your name <span class="required">*</span></div>
+                            <legend>Your name</legend>
+
+                            <div class="field first-name">
+                                <label class="caption">First Name
+                                    <input class="field-element field-control" id="fname" name="fname" x-autocompletetype="given-name" type="text" spellcheck="false" maxlength="30" data-title="First" required>
+                                </label>
+                            </div>
+                            <div class="field last-name">
+                                <label class="caption">Last
+                                    Name<input class="field-element field-control" id="lname" name="lname" x-autocompletetype="surname" type="text" spellcheck="false" maxlength="30" data-title="Last" required>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="form-item field text required">
+                            <label class="title" for="email">Email address <span class="required">*</span></label>
+                            <input class="field-element text" type="text" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <h3>Where should we send your photos?</h3>
+
+                    <div class="field-list clear">
+                        <fieldset id="address-yui_3_17_2_1_1422249252089_41246" class="form-item fields address required">
+                            <div class="title">Your Address <span class="required">*</span></div>
+                            <legend>Your Address</legend>
+
+                            <div class="field address1">
+                                <label class="caption">Address<input class="field-element field-control" id="address" name="address" x-autocompletetype="address-line1" type="text" spellcheck="false" data-title="Street address">
+                                </label>
+                            </div>
+                            <div class="field city">
+                                <label class="caption">City<input class="field-element field-control" id="city" name="city" x-autocompletetype="city" type="text" spellcheck="false" data-title="City">
+                                </label>
+                            </div>
+                            <div class="field state-province">
+                                <label class="caption">State<input class="field-element field-control" id="state" name="state" x-autocompletetype="state" type="text" spellcheck="false" data-title="State">
+                                </label>
+                            </div>
+                            <div class="field zip">
+                                <label class="caption">Post
+                                    Code/Zip<input class="field-element field-control" id="postcode" name="postcode" x-autocompletetype="postal-code" type="text" spellcheck="false" data-title="Postcode">
+                                </label>
+                            </div>
+                            <div class="field country">
+                                <label class="caption">Country<input class="field-element field-control" id="country" name="country" x-autocompletetype="country" type="text" spellcheck="false" data-title="Country">
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div id="plan-msg" style="text-align:center"></div>
+                    <!-- to display errors returned by createToken -->
+                    <div id="error-msg"></div>
+
+                    <div class="sqs-block button-block sqs-block-button">
+                        <div class="sqs-block-content">
+                            <div class="sqs-block-button-container--center">
+                                <button type="submit" class="submit-button sqs-block-button-element--medium sqs-block-button-element" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Submitting details...">
+                                    Complete signup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
