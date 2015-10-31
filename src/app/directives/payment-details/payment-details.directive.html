@@ -1,51 +1,87 @@
 <div class="form-section-wrapper">
     <span class="sub-heading">How should we bill you?</span>
 
-    <div class="field-list clear">
-        <form id="payment-details" name="payment-details" role="form" novalidate>
-            <div class="form-item field text required">
-                <label class="title" for="card-number">
-                    Card Number
-                    <span class="required">*</span>
-                </label>
-                <input class="field-element text"
-                       type="text"
-                       size="20"
-                       autocomplete="off"
-                       id="card-number">
-            </div>
-            <div class="form-item field text required">
-                <label class="title" for="card-cvc">
-                    Security code (CVC)
-                    <span class="required">*</span>
-                </label>
-                <input class="field-element text"
-                       type="text"
-                       size="20"
-                       autocomplete="off"
-                       id="card-cvc">
-            </div>
+    <form id="payment-details" name="paymentDetailsForm" role="form" novalidate>
+        <div class="form-group text required" show-errors>
+            <label class="control-label" for="card-number">
+                Card Number <span class="required">*</span>
+            </label>
+            <input class="form-control"
+                   type="text"
+                   size="20"
+                   autocomplete="off"
+                   id="card-number"
+                   name="cardNumber"
+                   ng-model="card.number"
+                   cc-number
+                   required>
 
-            <fieldset class="form-item fields name required">
-                <legend>Card Expiration</legend>
-                <div class="title">Expiration (MM/YYYY)
-                    <span class="required">*</span>
+            <p ng-show="paymentDetailsForm.cardNumber.$invalid && isValidated" class="help-block">
+                Your credit card number is invalid.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group expiry required" ng-class="{'has-error': paymentDetailsForm.$error.ccExp && isValidated}" show-errors>
+                    <label class="control-label">
+                        Expiration (MM/YY)
+                        <span class="required">*</span>
+                    </label>
+
+                    <div class="form-group">
+                        <div class="row" cc-exp>
+                            <div class="col-xs-6">
+                                <div class="expiry-month">
+                                    <input class="form-control"
+                                           type="text"
+                                           size="2"
+                                           placeholder="MM"
+                                           id="card-expiry-month"
+                                           name="cardExpiryMonth"
+                                           ng-model="card.exp_month"
+                                           cc-exp-month
+                                           required>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="expiry-year">
+                                    <input class="form-control"
+                                           type="text"
+                                           size="2"
+                                           placeholder="YY"
+                                           id="card-expiry-year"
+                                           name="cardExpiryYear"
+                                           ng-model="card.exp_year"
+                                           cc-exp-year
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <p ng-show="paymentDetailsForm.$error.ccExp && isValidated" class="help-block">
+                            Your credit card expiry is invalid.</p>
+                    </div>
                 </div>
-                <div class="field first-name">
-                    <input class="field-element field-control"
+            </div>
+            <div class="col-md-6">
+                <div class="form-group cvc inline-field-left required" show-errors>
+                    <label class="control-label" for="card-cvc">
+                        Security code (CVC)
+                        <span class="required">*</span>
+                    </label>
+                    <input class="form-control text"
                            type="text"
-                           size="2"
-                           placeholder="MM"
-                           id="card-expiry-month">
+                           size="20"
+                           autocomplete="off"
+                           id="card-cvc"
+                           name="cardCvc"
+                           ng-model="card.cvc"
+                           cc-cvc
+                           cc-type="paymentDetailsForm.cardNumber.$ccType"
+                           required>
+
+                    <p ng-show="paymentDetailsForm.cardCvc.$invalid && isValidated" class="help-block">
+                        Your credit card CVC is required.</p>
                 </div>
-                <div class="field last-name">
-                    <input class="field-element field-control"
-                           type="text"
-                           size="4"
-                           placeholder="YYYY"
-                           id="card-expiry-year">
-                </div>
-            </fieldset>
-        </form>
-    </div>
+            </div>
+        </div>
+    </form>
 </div>

@@ -51,6 +51,6 @@
             link: function(scope, iElement, attrs, ctrl) {
                 ctrl.setRedirectUrl(attrs.redirectTo);
             }
-        }
+        };
     }
 })();

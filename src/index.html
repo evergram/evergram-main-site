@@ -2,7 +2,7 @@
 <html ng-app="pixy">
 <head>
     <meta charset="utf-8">
-    <title>pixy</title>
+    <title>Pixy</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -18,6 +18,9 @@
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
+    <script src="https://use.typekit.net/jnt0vee.js"></script>
+    <script src="assets/vendor/segment.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
 </head>
 <body>
 <!--[if lt IE 10]>
@@ -26,7 +29,7 @@
 <![endif]-->
 
 <div ui-view></div>
-
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <!-- build:js(src) scripts/vendor.js -->
 <!-- bower:js -->
 <!-- run `gulp inject` to automatically populate bower script dependencies -->

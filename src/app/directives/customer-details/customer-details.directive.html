@@ -3,56 +3,58 @@
 
     <div class="field-list clear">
         <form id="customer-details" name="customerDetails" role="form" novalidate>
-            <fieldset class="form-item fields name required">
-                <legend>Your name</legend>
+            <div class="row">
+                <div class="col-sm-6">
 
-                <div class="field first-name form-group" show-errors>
-                    <label class="caption">First Name <span class="required">*</span></label>
-                    <input class="field-element field-control"
-                           id="firstName"
-                           name="firstName"
-                           x-autocompletetype="given-name"
-                           type="text"
-                           spellcheck="false"
-                           maxlength="30"
-                           data-title="First"
-                           required
-                           ng-model="user.firstName">
+                    <div class="form-group first-name inline-field-left" show-errors>
+                        <label class="control-label" for="first-name">First Name <span class="required">*</span></label>
+                        <input class="form-control"
+                               id="first-name"
+                               name="firstName"
+                               x-autocompletetype="given-name"
+                               type="text"
+                               spellcheck="false"
+                               maxlength="30"
+                               data-title="First"
+                               required
+                               ng-model="user.firstName">
 
-                    <p ng-show="customerDetails.firstName.$invalid && !customerDetails.firstName.$pristine" class="help-block">
-                        Your first name is required.</p>
+                        <p ng-show="(customerDetails.firstName.$invalid && !customerDetails.firstName.$pristine) || (customerDetails.firstName.$invalid && isValidated)" class="help-block">
+                            Your first name is required.</p>
+                    </div>
                 </div>
-                <div class="field last-name" show-errors>
-                    <label class="caption">Last Name <span class="required">*</span></label>
-                    <input class="field-element field-control"
-                           id="lastName"
-                           name="lastName"
-                           x-autocompletetype="surname"
-                           type="text"
-                           spellcheck="false"
-                           maxlength="30"
-                           data-title="Last"
-                           required
-                           ng-model="user.lastName">
+                <div class="col-sm-6">
+                    <div class="form-group last-name inline-field-right" show-errors>
+                        <label class="control-label" for="last-name">Last Name <span class="required">*</span></label>
+                        <input class="form-control"
+                               id="last-name"
+                               name="lastName"
+                               x-autocompletetype="surname"
+                               type="text"
+                               spellcheck="false"
+                               maxlength="30"
+                               data-title="Last"
+                               required
+                               ng-model="user.lastName">
 
-                    <p ng-show="customerDetails.lastName.$invalid && !customerDetails.lastName.$pristine" class="help-block">
-                        Your last name is required.</p>
+                        <p ng-show="(customerDetails.lastName.$invalid && !customerDetails.lastName.$pristine) || (customerDetails.lastName.$invalid && isValidated)" class="help-block">
+                            Your last name is required.</p>
+                    </div>
                 </div>
-            </fieldset>
-            <div class="form-item field text required" show-errors>
-                <label class="title" for="email">
+            </div>
+            <div class="form-group required" show-errors>
+                <label class="control-label" for="email">
                     Email address <span class="required">*</span>
                 </label>
-                <input class="field-element text"
+                <input class="form-control text"
                        type="text"
                        id="email"
                        name="email"
                        required
                        ng-model="user.email">
 
-                <p ng-show="customerDetails.email.$invalid && !customerDetails.email.$pristine" class="help-block">
+                <p ng-show="(customerDetails.email.$invalid && !customerDetails.email.$pristine) || (customerDetails.email.$invalid && isValidated)" class="help-block">
                     Your email is required.</p>
             </div>
-        </form>
     </div>
 </div>

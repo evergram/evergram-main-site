@@ -5,6 +5,29 @@
 $navbar-inverse-link-color: #5AADBB;
 $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
+$font-family-sans-serif: "futura-pt", Helvetica, Arial, sans-serif !default;
+$font-family-base: $font-family-sans-serif !default;
+
+$font-size-base: 14px !default;
+
+$font-size-h1: floor(($font-size-base * 2.6)) !default;
+// ~36px
+$font-size-h2: floor(($font-size-base * 2.15)) !default;
+// ~30px
+$font-size-h3: ceil(($font-size-base * 1.7)) !default;
+// ~24px
+$font-size-h4: ceil(($font-size-base * 1.25)) !default;
+// ~18px
+$font-size-h5: $font-size-base !default;
+$font-size-h6: ceil(($font-size-base * 0.85)) !default;
+// ~12px
+
+//** By default, this inherits from the `<body>`.
+$headings-font-family: inherit !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.1 !default;
+$headings-color: inherit !default;
+
 /**
  *  Do not remove this comments bellow. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies
@@ -37,7 +60,7 @@ body {
 
 .content-area {
 
-  padding: 100px 0;
+  padding: 80px 0;
 
   .center {
     text-align: center;
@@ -53,9 +76,6 @@ body {
 h1 {
 
   color: #201a16;
-  font-family: "futura-pt", sans-serif;
-  font-size: 32px;
-  font-style: normal;
   font-weight: 300;
   letter-spacing: 0;
   line-height: 1.1em;
@@ -64,9 +84,6 @@ h1 {
 h2 {
 
   color: #201a16;
-  font-family: "futura-pt", sans-serif;
-  font-size: 28px;
-  font-style: normal;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.1em;
@@ -74,34 +91,32 @@ h2 {
 
 .sub-heading {
   color: #f76218;
-  font-family: "futura-pt";
-  font-size: 18px;
-  line-height: 1.3em;
   text-transform: uppercase;
   letter-spacing: 4px;
   font-weight: 700;
   font-style: normal;
+  padding-bottom: 20px;
 }
 
 .btn {
 
   border-radius: 3px;
   box-shadow: 0px .2em 0px 0px #de4f08;
-  background-color: #f76218;
+  background-color: #f76218 !important;
   color: #fff;
-  font-family: "futura-pt", sans-serif;
-  font-size: 13px;
-  font-style: normal;
   font-weight: 700;
   letter-spacing: 2px;
   line-height: 13px;
-  margin-left: 13px;
   padding: 13px 19.5px;
   text-transform: uppercase;
 }
 
 .btn:hover {
-  color: #c8c8c8;
+  color: #FBB040 !important;
+}
+
+.btn:focus {
+  color: #FFFFFF !important;
 }
 
 .btn-lg {
@@ -109,13 +124,12 @@ h2 {
   line-height: normal;
 }
 
-.navbar-nav, footer {
-
-  color: #fff;
+.navbar-nav > li > a, footer {
+  color: #ffffff !important;
   font-family: "futura-pt", sans-serif;
   font-size: 13px;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 2px;
   line-height: 13px;
   margin: 5px;
@@ -123,7 +137,7 @@ h2 {
   text-align: center;
 
   a {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
   }
 
@@ -141,22 +155,33 @@ h2 {
   }
 }
 
+.navbar-brand {
+  padding: 0px;
+  margin-left: 10px !important;
+}
+
+.navbar-right button {
+  border: none;
+  color: #fff;
+}
+
+.navbar-toggle:focus {
+  background-color: transparent;
+}
+
+.icon-bar {
+  clear: none;
+  display: inline-block !important;
+  background-color: #fff !important;
+}
+
 /** FORM STUFF **/
 
-.form-section-wrapper {
-  padding-top: 30px;
+.control-label {
+  font-weight: 300;
 }
 
-legend {
-  display: none;
-}
-
-.field-list {
-  margin-left: -2%;
-  padding-top: 10px;
-}
-
-.field-element {
+.form-control {
   width: 100%;
   padding: 12px;
   margin: 6px 0 4px;
@@ -172,36 +197,20 @@ legend {
   border-radius: 2px;
 }
 
-.field {
-
-  margin-left: 2%;
-  padding-top: 5px;
-
-  label {
-    width: 100%;
+select {
+  &.form-control {
+    padding: 6px 12px;
   }
 }
 
-.fields .title {
-  margin-left: 2%;
+
+.form-section-wrapper {
+  padding-bottom: 30px;
 }
 
-.field label, .fieldset .title {
-  font-weight: 300;
-}
-
-.fields.name .field {
-  width: 48%;
-  float: left;
-}
-
-.submit-button-block button {
-  margin-top: 40px;
-  margin-left: 0px;
-}
-
-.clear {
-  zoom: 1;
+label {
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 /** SHARING **/

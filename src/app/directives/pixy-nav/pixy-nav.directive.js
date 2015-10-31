@@ -10,6 +10,6 @@
             restrict: 'EA',
             scope: {},
             templateUrl: 'app/directives/pixy-nav/pixy-nav.directive.html'
-        }
+        };
     }
 })();

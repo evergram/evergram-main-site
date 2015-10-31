@@ -20,6 +20,12 @@
                 controller: 'SignupStep2Controller',
                 controllerAs: 'step2'
             })
+            .state('signup-complete', {
+                url: '/signup-complete',
+                templateUrl: 'app/controllers/signup-complete/signup-complete.html',
+                controller: 'SignupCompleteController',
+                controllerAs: 'complete'
+            })
             .state('home', {
                 url: '/',
                 templateUrl: 'app/controllers/home/home.html',

@@ -5,49 +5,116 @@
         .module('pixy')
         .controller('SignupStep2Controller', SignupStep2Controller);
 
-    SignupStep2Controller.$inject = ['$scope', '$location', 'pixyConfig', 'UserService'];
-    function SignupStep2Controller($scope, $location, pixyConfig, UserService) {
+    SignupStep2Controller.$inject =
+        ['document', '$document', '$location', '$state', '$q', 'pixyConfig', 'PaymentService', 'UserService'];
+    function SignupStep2Controller(document, $document, $location, $state, $q, pixyConfig, paymentService,
+                                   userService) {
         var vm = this;
+        var errorEl = angular.element(document.getElementById('error-msg'));
+        var plan = pixyConfig.PLANS.DEFAULT;
+        var querystring = $location.search();
+
+        vm.user = {};
+        vm.card = {
+            number: '',
+            exp_month: '',
+            exp_year: '',
+            cvc: ''
+        };
+        vm.error = '';
 
         // bindings for directives to ensure they are valid
-        this.forms = {
+        vm.forms = {
             customerDetails: {},
             addressDetails: {},
             paymentDetails: {}
         };
-
-        var plan = pixyConfig.PLANS.DEFAULT;
-        var querystring = $location.search();
-
-        // if there's a user id, fetch the user
-        if (!!querystring.id) {
-            UserService.findById(querystring.id).then(function(user) {
-                vm.user = user;
-            });
-        }
 
         // check for a plan in the querystring
         if (!!querystring[pixyConfig.QUERYSTRING.PLAN]) {
             plan = querystring[pixyConfig.QUERYSTRING.PLAN];
         }
 
+        // if there's a user id, fetch the user
+        if (!!querystring.id) {
+            // set the overlay promise
+            vm.overlay = userService.findById(querystring.id).then(function(user) {
+                vm.user = user;
+
+                // set the user plan
+                vm.user.billing.option = plan;
+            });
+        }
+
         /**
          * Complete the signup process by checking all form validations, submitting the payments etc.
          */
         vm.complete = function() {
-            angular.forEach(this.forms, function(form) {
+            resetErrorMessage();
+            vm.overlay = complete();
+        };
+
+        function complete() {
+            var deferred = $q.defer();
+
+            // if all valid
+            if (isValid()) {
+
+                // update user
+                vm.user.put().
+                    then(function() {
+                        // submit payment
+                        return paymentService.createToken(vm.card, vm.user);
+                    }).
+                    then(function(response) {
+                        // set the stripe id
+                        vm.user.billing.stripeId = response.id;
+                        return vm.user.put();
+                    }).
+                    then(function() {
+                        // redirect
+                        $state.go('signup-complete');
+                    }).
+                    catch(function(err) {
+                        if (err.type && /^Stripe/.test(err.type)) {
+                            setErrorMessage('Stripe error: ', err.message);
+                        } else {
+                            setErrorMessage('An error occurred: ' + err.message);
+                        }
+                        deferred.resolve();
+                    });
+            } else {
+                setErrorMessage('Please complete all form fields');
+                deferred.resolve();
+            }
+
+            return deferred.promise;
+        }
+
+        function isValid() {
+            // call validate on all forms to show/hide errors
+            angular.forEach(vm.forms, function(form) {
                 if (!!form.validate) {
                     form.validate();
                 }
             });
-            //$scope.$broadcast('show-errors-reset');
-            // validate customer
-            // validate address
-            // validate payment
 
-            // submit payment
+            // if all valid
+            if (vm.forms.customerDetails.isValid() &&
+                vm.forms.addressDetails.isValid() &&
+                vm.forms.paymentDetails.isValid()) {
+                return true;
+            }
+            return false;
+        }
 
-            // update user
-        };
+        function setErrorMessage(message) {
+            vm.error = message;
+            $document.scrollToElement(errorEl, 30, 1000);
+        }
+
+        function resetErrorMessage() {
+            vm.error = '';
+        }
     }
 })();

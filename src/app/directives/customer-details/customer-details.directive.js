@@ -18,26 +18,26 @@
             templateUrl: 'app/directives/customer-details/customer-details.directive.html',
             controller: ['$scope',
                 function($scope) {
+                    $scope.isValidated = false;
+
                     this.validate = function() {
-                        console.log('Validating');
                         $scope.$broadcast('show-errors-check-validity');
-                        if ($scope.customerDetails.$valid) {
-                            console.log('Valid');
-                        } else {
-                            console.log('Invalid');
-                        }
+                        $scope.isValidated = true;
+                    };
+
+                    this.isValid = function() {
+                        return !!$scope.customerDetails.$valid;
                     };
                 }],
             link: function(scope, iElement, attrs, ctrl) {
                 if (!!attrs.parentForms) {
                     var parent = lodash.get(scope.$parent, attrs.parentForms);
                     if (!!parent && !!parent[attrs.parentForm]) {
-                        console.log(ctrl);
                         parent[attrs.parentForm] = ctrl;
                     }
                 }
             }
-        }
+        };
     }
 
 })();
