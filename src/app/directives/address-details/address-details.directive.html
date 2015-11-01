@@ -3,99 +3,97 @@
 
     <div class="field-list clear">
         <form id="address-details" name="addressDetailsForm" role="form" novalidate>
-            <fieldset class="form-item fields address required">
-                <div class="form-group address1" show-errors>
-                    <label class="control-label" for="address">Address <span class="required">*</span></label>
-                    <input class="form-control"
-                           id="address"
-                           name="address"
-                           x-autocompletetype="address-line1"
-                           type="text"
-                           spellcheck="false"
-                           placeholder="Street address"
-                           required
-                           ng-model="user.address.line1">
+            <div class="form-group address1" show-errors>
+                <label class="control-label" for="address">Address <span class="required">*</span></label>
+                <input class="form-control"
+                       id="address"
+                       name="address"
+                       x-autocompletetype="address-line1"
+                       type="text"
+                       spellcheck="false"
+                       placeholder="Street address"
+                       required
+                       ng-model="user.address.line1">
 
-                    <p ng-show="(addressDetailsForm.address.$invalid && !addressDetailsForm.address.$pristine) || (addressDetailsForm.address.$invalid && isValidated)" class="help-block">
-                        Your address is required.</p>
-                </div>
-                <div class="form-group city" show-errors>
-                    <label class="control-label" for="city">City
-                        <span class="required">*</span>
-                    </label>
-                    <input class="form-control"
-                           id="city"
-                           name="city"
-                           x-autocompletetype="city"
-                           type="text"
-                           spellcheck="false"
-                           placeholder="City"
-                           required
-                           ng-model="user.address.suburb">
+                <p ng-show="(addressDetailsForm.address.$invalid && !addressDetailsForm.address.$pristine) || (addressDetailsForm.address.$invalid && isValidated)" class="help-block">
+                    Your address is required.</p>
+            </div>
+            <div class="form-group city" show-errors>
+                <label class="control-label" for="city">City
+                    <span class="required">*</span>
+                </label>
+                <input class="form-control"
+                       id="city"
+                       name="city"
+                       x-autocompletetype="city"
+                       type="text"
+                       spellcheck="false"
+                       placeholder="City"
+                       required
+                       ng-model="user.address.suburb">
 
-                    <p ng-show="(addressDetailsForm.city.$invalid && !addressDetailsForm.city.$pristine) || (addressDetailsForm.city.$invalid && isValidated)" class="help-block">
-                        Your city is required.</p>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group state-province" show-errors>
-                            <label class="control-label" for="state">State
-                                <span class="required">*</span>
-                            </label>
-                            <select class="form-control"
-                                    id="state"
-                                    name="state"
-                                    x-autocompletetype="state"
-                                    required
-                                    ng-model="user.address.state">
-                                <option name="ACT">Australian Capital Territory</option>
-                                <option name="NSW">New South Wales</option>
-                                <option name="NT">Northern Territory</option>
-                                <option name="QLD">Queensland</option>
-                                <option name="SA">South Australia</option>
-                                <option name="TAS">Tasmania</option>
-                                <option name="VIC">Victoria</option>
-                                <option name="WA">Western Australia</option>
-                            </select>
+                <p ng-show="(addressDetailsForm.city.$invalid && !addressDetailsForm.city.$pristine) || (addressDetailsForm.city.$invalid && isValidated)" class="help-block">
+                    Your city is required.</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group state-province" show-errors>
+                        <label class="control-label" for="state">State
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control"
+                                id="state"
+                                name="state"
+                                x-autocompletetype="state"
+                                required
+                                ng-model="user.address.state">
+                            <option name="ACT">Australian Capital Territory</option>
+                            <option name="NSW">New South Wales</option>
+                            <option name="NT">Northern Territory</option>
+                            <option name="QLD">Queensland</option>
+                            <option name="SA">South Australia</option>
+                            <option name="TAS">Tasmania</option>
+                            <option name="VIC">Victoria</option>
+                            <option name="WA">Western Australia</option>
+                        </select>
 
-                            <p ng-show="(addressDetailsForm.state.$invalid && !addressDetailsForm.state.$pristine) || (addressDetailsForm.state.$invalid && isValidated)" class="help-block">
-                                Your state is required.</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group zip" show-errors>
-                            <label class="control-label" for="postcode">Postcode
-                                <span class="required">*</span>
-                            </label>
-                            <input class="form-control"
-                                   id="postcode"
-                                   name="postcode"
-                                   x-autocompletetype="postal-code"
-                                   type="text"
-                                   spellcheck="false"
-                                   placeholder="Postcode"
-                                   required
-                                   ng-model="user.address.postcode">
-
-                            <p ng-show="(addressDetailsForm.postcode.$invalid && !addressDetailsForm.postcode.$pristine) || (addressDetailsForm.postcode.$invalid && isValidated)" class="help-block">
-                                Your postcode is required.</p>
-                        </div>
+                        <p ng-show="(addressDetailsForm.state.$invalid && !addressDetailsForm.state.$pristine) || (addressDetailsForm.state.$invalid && isValidated)" class="help-block">
+                            Your state is required.</p>
                     </div>
                 </div>
-                <div class="field">
-                    <label class="control-label text-muted">Note: Pixy is only available to customers with an Australian
-                        postal
-                        address.
-                    </label>
-                    <input id="country"
-                           name="country"
-                           type="hidden"
-                           placeholder="Country"
-                           value="AU"
-                           ng-init="user.address.country = 'AU'"
-                           ng-model="user.address.country">
+                <div class="col-sm-6">
+                    <div class="form-group zip" show-errors>
+                        <label class="control-label" for="postcode">Postcode
+                            <span class="required">*</span>
+                        </label>
+                        <input class="form-control"
+                               id="postcode"
+                               name="postcode"
+                               x-autocompletetype="postal-code"
+                               type="text"
+                               spellcheck="false"
+                               placeholder="Postcode"
+                               required
+                               ng-model="user.address.postcode">
+
+                        <p ng-show="(addressDetailsForm.postcode.$invalid && !addressDetailsForm.postcode.$pristine) || (addressDetailsForm.postcode.$invalid && isValidated)" class="help-block">
+                            Your postcode is required.</p>
+                    </div>
                 </div>
-            </fieldset>
+            </div>
+            <div class="field">
+                <label class="control-label text-muted">Note: Pixy is only available to customers with an Australian
+                    postal
+                    address.
+                </label>
+                <input id="country"
+                       name="country"
+                       type="hidden"
+                       placeholder="Country"
+                       value="AU"
+                       ng-init="user.address.country = 'AU'"
+                       ng-model="user.address.country">
+            </div>
         </form>
     </div>
 </div>

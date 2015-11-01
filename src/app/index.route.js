@@ -8,6 +8,12 @@
     /** @ngInject */
     function routeConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
+            .state('choose-a-plan', {
+                url: '/choose-a-plan',
+                templateUrl: 'app/controllers/choose-a-plan/choose-a-plan.html',
+                controller: 'ChoosePlanController',
+                controllerAs: 'choose'
+            })
             .state('signup-step-1', {
                 url: '/signup-step-1',
                 templateUrl: 'app/controllers/signup-step-1/signup-step-1.html',

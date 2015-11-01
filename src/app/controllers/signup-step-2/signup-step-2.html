@@ -1,4 +1,3 @@
-<pixy-nav></pixy-nav>
 <div class="container">
     <div class="row content-area">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
@@ -14,7 +13,7 @@
             <div ng-show="step2.error">
                 <div id="error-msg" class="alert alert-danger">{{step2.error}}</div>
             </div>
-            <div cg-busy="{promise:step2.overlay,message:'Loading'}">
+            <div cg-busy="{promise:step2.overlay,message:'Loading',templateUrl:'app/directives/busy/busy.html'}">
                 <customer-details parent-forms="step2.forms" parent-form="customerDetails" user="step2.user"></customer-details>
                 <address-details parent-forms="step2.forms" parent-form="addressDetails" user="step2.user"></address-details>
                 <payment-details parent-forms="step2.forms" parent-form="paymentDetails" card="step2.card"></payment-details>
@@ -26,4 +25,3 @@
         </div>
     </div>
 </div>
-<pixy-footer></pixy-footer>

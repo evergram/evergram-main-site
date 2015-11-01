@@ -13,6 +13,7 @@
         var errorEl = angular.element(document.getElementById('error-msg'));
         var plan = pixyConfig.PLANS.DEFAULT;
         var querystring = $location.search();
+        var deferred = $q.defer();
 
         vm.user = {};
         vm.card = {
@@ -22,6 +23,7 @@
             cvc: ''
         };
         vm.error = '';
+        vm.overlay = deferred.promise;
 
         // bindings for directives to ensure they are valid
         vm.forms = {
@@ -32,18 +34,30 @@
 
         // check for a plan in the querystring
         if (!!querystring[pixyConfig.QUERYSTRING.PLAN]) {
-            plan = querystring[pixyConfig.QUERYSTRING.PLAN];
+            plan = querystring[pixyConfig.QUERYSTRING.PLAN].code;
         }
 
         // if there's a user id, fetch the user
         if (!!querystring.id) {
             // set the overlay promise
-            vm.overlay = userService.findById(querystring.id).then(function(user) {
+            userService.findById(querystring.id).then(function(user) {
                 vm.user = user;
 
                 // set the user plan
                 vm.user.billing.option = plan;
+
+                if (!!vm.user.signupComplete) {
+                    // redirect
+                    $state.go('signup-complete');
+                    return;
+                } else {
+                    deferred.resolve();
+                }
             });
+        } else {
+            // redirect back to the beginning as something went wrong
+            $state.go('home');
+            return;
         }
 
         /**

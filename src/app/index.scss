@@ -28,6 +28,9 @@ $headings-font-weight: 500 !default;
 $headings-line-height: 1.1 !default;
 $headings-color: inherit !default;
 
+$pixy-orange: #f76218;
+$white: #fff;
+
 /**
  *  Do not remove this comments bellow. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies
@@ -90,7 +93,7 @@ h2 {
 }
 
 .sub-heading {
-  color: #f76218;
+  color: $pixy-orange;
   text-transform: uppercase;
   letter-spacing: 4px;
   font-weight: 700;
@@ -99,11 +102,10 @@ h2 {
 }
 
 .btn {
-
   border-radius: 3px;
   box-shadow: 0px .2em 0px 0px #de4f08;
-  background-color: #f76218 !important;
-  color: #fff;
+  background-color: $pixy-orange !important;
+  color: $white;
   font-weight: 700;
   letter-spacing: 2px;
   line-height: 13px;
@@ -116,7 +118,7 @@ h2 {
 }
 
 .btn:focus {
-  color: #FFFFFF !important;
+  color: $white !important;
 }
 
 .btn-lg {
@@ -125,7 +127,7 @@ h2 {
 }
 
 .navbar-nav > li > a, footer {
-  color: #ffffff !important;
+  color: $white !important;
   font-family: "futura-pt", sans-serif;
   font-size: 13px;
   font-style: normal;
@@ -137,7 +139,7 @@ h2 {
   text-align: center;
 
   a {
-    color: #ffffff;
+    color: $white;
     text-decoration: none;
   }
 
@@ -162,7 +164,7 @@ h2 {
 
 .navbar-right button {
   border: none;
-  color: #fff;
+  color: $white;
 }
 
 .navbar-toggle:focus {
@@ -172,7 +174,7 @@ h2 {
 .icon-bar {
   clear: none;
   display: inline-block !important;
-  background-color: #fff !important;
+  background-color: $white !important;
 }
 
 /** FORM STUFF **/
@@ -203,7 +205,6 @@ select {
   }
 }
 
-
 .form-section-wrapper {
   padding-bottom: 30px;
 }
@@ -216,6 +217,34 @@ label {
 /** SHARING **/
 #share-url-field {
   font-size: 18px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+
+  .spinner-inner-container {
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    i {
+      padding: 0;
+      margin: 0;
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      color: $pixy-orange;
+    }
+  }
+}
+
+.snap-content {
+  background: $white;
 }
 
 /**
