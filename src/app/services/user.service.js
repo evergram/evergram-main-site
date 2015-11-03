@@ -5,27 +5,38 @@
         .module('pixy')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['Restangular'];
-    function UserService(Restangular) {
+    UserService.$inject = ['$location', '$q', 'Restangular'];
+    function UserService($location, $q, restangular) {
         var ENDPOINT = '/users';
         var service = {};
 
         service.findById = findById;
         service.create = create;
+        service.findFromQueryString = findFromQueryString;
 
         return service;
 
+        function findFromQueryString() {
+            var querystring = $location.search();
+            if (!!querystring.id) {
+                return findById(querystring.id);
+            } else {
+                return $q.reject('No id found in querystring');
+            }
+        }
+
         function findById(id) {
-            return Restangular.one(ENDPOINT + '/' + id).get().then(handleSuccess,
+            return restangular.one(ENDPOINT + '/' + id).get().then(handleSuccess,
                 handleError('Error getting user by id'));
         }
 
         function create(data) {
-            return Restangular.all(ENDPOINT).post(data).then(handleSuccess, handleError('Error creating user'));
+            return restangular.all(ENDPOINT).post(data).then(handleSuccess, handleError('Error creating user'));
         }
 
         // private functions
         function handleSuccess(data) {
+            data.address.country = 'AU'; // force australia
             return data;
         }
 

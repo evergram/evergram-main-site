@@ -5,11 +5,14 @@
         .module('pixy')
         .factory('PaymentService', PaymentService);
 
-    PaymentService.$inject = ['stripe'];
-    function PaymentService(stripe) {
+    PaymentService.$inject = ['Restangular', 'stripe', 'lodash'];
+    function PaymentService(restangular, stripe, lodash) {
+        var ENDPOINT = '/payment-gateways/stripe';
         var service = {};
 
         service.createToken = createToken;
+        service.createCustomer = createCustomer;
+        service.updateCustomer = updateCustomer;
 
         return service;
 
@@ -31,6 +34,56 @@
             }
 
             return stripe.card.createToken(data);
+        }
+
+        function createCustomer(user, sourceId) {
+            var data = getCustomerData(user, sourceId);
+
+            return restangular.all(ENDPOINT + '/customer').
+            post(data).
+            then(handleSuccess, handleError('Error creating stripe customer'));
+        }
+
+        function updateCustomer(id, user, sourceId) {
+            var data = getCustomerData(user, sourceId);
+
+            return restangular.all(ENDPOINT + '/customer/' + id).
+            customPUT(data).
+            then(handleSuccess, handleError('Error creating stripe customer'));
+        }
+
+        function getCustomerData(user, sourceId) {
+            var data = {
+                email: user.email,
+                plan: user.billing.option,
+                metadata: {
+                    pixy_customer_id: user._id,
+                    instagram_id: user.instagram.id,
+                    first_name: user.firstName,
+                    last_name: user.lastName,
+                    instagram_username: user.instagram.username
+                }
+            };
+
+            if (!!sourceId && !lodash.isEmpty(sourceId)) {
+                data.source = sourceId;
+            }
+
+            return data;
+        }
+
+        // private functions
+        function handleSuccess(data) {
+            return data;
+        }
+
+        function handleError(error) {
+            return function() {
+                return {
+                    success: false,
+                    message: error
+                };
+            };
         }
     }
 })();

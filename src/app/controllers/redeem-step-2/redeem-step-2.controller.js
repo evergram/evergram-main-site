@@ -3,9 +3,9 @@
 
     angular
         .module('pixy')
-        .controller('SignupStep2Controller', SignupStep2Controller);
+        .controller('RedeemStep2Controller', RedeemStep2Controller);
 
-    SignupStep2Controller.$inject =
+    RedeemStep2Controller.$inject =
         [
             'lodash',
             '$state',
@@ -15,7 +15,7 @@
             'TrackingService',
             'UserService'
         ];
-    function SignupStep2Controller(lodash,
+    function RedeemStep2Controller(lodash,
                                    $state,
                                    $q,
                                    paymentService,
@@ -27,20 +27,13 @@
         var deferred = $q.defer();
 
         vm.user = {};
-        vm.card = {
-            number: '',
-            exp_month: '',
-            exp_year: '',
-            cvc: ''
-        };
         vm.error = '';
         vm.overlay = deferred.promise;
 
         // bindings for directives to ensure they are valid
         vm.forms = {
             customerDetails: {},
-            addressDetails: {},
-            paymentDetails: {}
+            addressDetails: {}
         };
 
         // set the overlay promise
@@ -78,19 +71,15 @@
 
             // if all valid
             if (isValid()) {
-
-                // update user
+                // save user
                 vm.user.put().
                 then(function() {
-                    // create payment token in stripe
-                    return paymentService.createToken(vm.card, vm.user);
-                }).
-                then(function(response) {
                     // create/update stripe customer
                     if (!!vm.user.billing.stripeId && !lodash.isEmpty(vm.user.billing.stripeId)) {
-                        return paymentService.updateCustomer(vm.user.billing.stripeId, vm.user, response.id);
+                        return paymentService.updateCustomer(vm.user.billing.stripeId, vm.user);
                     }
-                    return paymentService.createCustomer(vm.user, response.id);
+
+                    return paymentService.createCustomer(vm.user);
                 }).
                 then(function(response) {
                     // save the details
@@ -104,11 +93,7 @@
                     $state.go('signup-complete');
                 }).
                 catch(function(err) {
-                    if (err.type && /^Stripe/.test(err.type)) {
-                        setErrorMessage('Stripe error: ', err.message);
-                    } else {
-                        setErrorMessage('An error occurred: ' + err.message);
-                    }
+                    setErrorMessage('An error occurred: ' + err.message);
                     deferred.resolve();
                 });
             } else {
@@ -129,8 +114,7 @@
 
             // if all valid
             return vm.forms.customerDetails.isValid() &&
-                vm.forms.addressDetails.isValid() &&
-                vm.forms.paymentDetails.isValid();
+                vm.forms.addressDetails.isValid();
         }
 
         function setErrorMessage(message) {

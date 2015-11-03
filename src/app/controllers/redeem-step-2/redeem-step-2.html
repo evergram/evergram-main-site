@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row content-area">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="center">
+                <span class="sub-heading">STEP 2</span>
+
+                <h1>Create your account</h1>
+
+                <p>Finally we just need a few details so we can get you up and running with Pixy.</p>
+                <br>
+            </div>
+
+            <div ng-show="step2.error" ng-cloak>
+                <div id="error-msg" class="alert alert-danger">{{redeem.error}}</div>
+            </div>
+            <div cg-busy="{promise:redeem.overlay,message:'Loading',templateUrl:'app/directives/busy/busy.html'}">
+                <customer-details parent-forms="redeem.forms" parent-form="customerDetails" user="redeem.user"></customer-details>
+                <address-details parent-forms="redeem.forms" parent-form="addressDetails" user="redeem.user"></address-details>
+
+                <button type="submit" class="btn btn-lg btn-block" ng-click="redeem.complete()">
+                    Complete Signup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
