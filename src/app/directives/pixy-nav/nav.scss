@@ -1,0 +1,56 @@
+.navbar-nav > li > a, footer {
+  color: $white !important;
+  font-family: "futura-pt", sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 2px;
+  line-height: 13px;
+  margin: 5px;
+  text-transform: uppercase;
+  text-align: center;
+
+  a {
+    color: $white;
+    text-decoration: none;
+  }
+
+  .footer-links {
+
+    margin-bottom: 20px;
+
+    li {
+      display: inline;
+      list-style-image: none;
+      list-style-position: outside;
+      list-style-type: none;
+      padding: 0 10px;
+    }
+  }
+}
+
+.navbar-brand {
+  padding: 0px;
+  margin-left: 10px !important;
+}
+
+.navbar-right button {
+  border: none;
+  color: $white;
+}
+
+.navbar-toggle:focus {
+  background-color: transparent;
+}
+
+.icon-bar {
+  clear: none;
+  display: inline-block !important;
+  background-color: $white !important;
+}
+
+.navbar, footer {
+  height: 140px;
+  background-color: #201a16;
+  padding: 40px 20px;
+}

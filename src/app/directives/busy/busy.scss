@@ -1,0 +1,23 @@
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+
+  .spinner-inner-container {
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    i {
+      padding: 0;
+      margin: 0;
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      color: $pixy-orange;
+    }
+  }
+}

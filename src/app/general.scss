@@ -1,0 +1,90 @@
+body {
+  font-family: "futura-pt", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.6em;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.thumbnail {
+  height: 200px;
+
+  img.pull-right {
+    width: 50px;
+  }
+}
+
+.content-area {
+  padding: 80px 0;
+  .center {
+    text-align: center;
+  }
+}
+
+h1 {
+  color: #201a16;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 1.1em;
+}
+
+h2 {
+  color: #201a16;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.1em;
+}
+
+.sub-heading {
+  color: $pixy-orange;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: 700;
+  font-style: normal;
+  padding-bottom: 20px;
+}
+
+.btn {
+  border-radius: 3px;
+  box-shadow: 0px .2em 0px 0px #de4f08;
+  background-color: $pixy-orange !important;
+  color: $white;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 13px;
+  padding: 13px 19.5px;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  color: #FBB040 !important;
+}
+
+.btn:focus {
+  color: $white !important;
+}
+
+.btn-lg {
+  font-size: 16px;
+  line-height: normal;
+}
+
+/** SHARING **/
+#share-url-field {
+  font-size: 18px;
+}
+
+.snap-content {
+  background: $white;
+}
+
+.ng-cloak {
+  display: none;
+}
