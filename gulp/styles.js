@@ -11,7 +11,7 @@ var $ = require('gulp-load-plugins')();
 var wiredep = require('wiredep').stream;
 var _ = require('lodash');
 
-gulp.task('styles', ['fonts'], function() {
+gulp.task('styles', ['style-fonts'], function() {
     var sassOptions = {
         style: 'expanded'
     };
@@ -36,15 +36,15 @@ gulp.task('styles', ['fonts'], function() {
     ])
         .pipe($.inject(injectFiles, injectOptions))
         .pipe(wiredep(_.extend({}, conf.wiredep)))
-        .pipe($.sourcemaps.init())
+        //.pipe($.sourcemaps.init())
         .pipe($.sass(sassOptions)).on('error', conf.errorHandler('Sass'))
         .pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
-        .pipe($.sourcemaps.write())
+        //.pipe($.sourcemaps.write())
         .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')))
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('fonts', function() {
+gulp.task('style-fonts', function() {
     return gulp.src('bower_components/font-awesome/fonts/fontawesome-webfont.*')
         .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/fonts/')));
 });

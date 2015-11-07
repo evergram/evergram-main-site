@@ -10,9 +10,9 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function() {
     return gulp.src([
-        path.join(conf.paths.src, '/app/**/*.html'),
-        path.join(conf.paths.tmp, '/serve/app/**/*.html')
-    ])
+            path.join(conf.paths.src, '/app/**/*.html'),
+            path.join(conf.paths.tmp, '/serve/app/**/*.html')
+        ])
         .pipe($.minifyHtml({
             empty: true,
             spare: true,
@@ -71,12 +71,7 @@ gulp.task('html', ['inject', 'partials'], function() {
 // Only applies for fonts from bower dependencies
 // Custom fonts are handled by the "other" task
 gulp.task('fonts', function() {
-    return gulp.src([
-        $.mainBowerFiles(),
-        'bower_components/font-awesome/fonts/fontawesome-webfont.*'
-    ])
-        .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
-        .pipe($.flatten())
+    return gulp.src('bower_components/font-awesome/fonts/fontawesome-webfont.*')
         .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
 
@@ -86,9 +81,9 @@ gulp.task('other', function() {
     });
 
     return gulp.src([
-        path.join(conf.paths.src, '/**/*'),
-        path.join('!' + conf.paths.src, '/**/*.{html,css,js,scss}')
-    ])
+            path.join(conf.paths.src, '/**/*'),
+            path.join('!' + conf.paths.src, '/**/*.{html,css,js,scss}')
+        ])
         .pipe(fileFilter)
         .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
 });

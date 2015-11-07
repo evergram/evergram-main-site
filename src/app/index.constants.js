@@ -8,6 +8,8 @@
         .constant('lodash', window._)
         .constant('analytics', window.analytics)
         .constant('pixyConfig', {
+            //API_ENDPOINT: 'https://api.printwithpixy.com/v1',
+            //SITE_ENDPOINT: 'https://secure.printwithpixy.com',
             API_ENDPOINT: 'http://localhost:8080/v1',
             SITE_ENDPOINT: 'http://localhost:3000',
             INSTAGRAM_ENDPOINT: '/auth/instagram',

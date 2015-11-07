@@ -26,10 +26,7 @@
                         return !!$scope.customerDetails.$valid;
                     };
                 }
-            ],
-            link: function(scope, iElement, attrs, ctrl) {
-                console.log(attrs.code);
-            }
+            ]
         };
     }
 })();
