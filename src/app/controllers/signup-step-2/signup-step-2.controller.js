@@ -78,7 +78,6 @@
 
             // if all valid
             if (isValid()) {
-
                 // update user
                 vm.user.put().
                 then(function() {
@@ -100,7 +99,10 @@
                 }).
                 then(function() {
                     // track event
-                    trackingService.signedUp(vm.user);
+                    return trackingService.signedUp(vm.user);
+                }).
+                then(function() {
+                    // redirect
                     $state.go('signup-complete');
                 }).
                 catch(function(err) {

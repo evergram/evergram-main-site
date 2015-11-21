@@ -89,7 +89,9 @@
                 }).
                 then(function() {
                     // track event
-                    trackingService.signedUp(vm.user);
+                    return trackingService.signedUp(vm.user);
+                }).
+                then(function() {
                     $state.go('signup-complete');
                 }).
                 catch(function(err) {
