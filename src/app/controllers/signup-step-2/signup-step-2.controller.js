@@ -8,7 +8,6 @@
     SignupStep2Controller.$inject =
         [
             'lodash',
-            '$window',
             '$state',
             '$q',
             'PaymentService',
@@ -17,7 +16,6 @@
             'UserService'
         ];
     function SignupStep2Controller(lodash,
-                                   $window,
                                    $state,
                                    $q,
                                    paymentService,
@@ -139,20 +137,10 @@
 
         function setErrorMessage(message) {
             vm.error = message;
-            scrollToError();
-        }
-
-        function scrollToError() {
-            // getErrorElement().animate({scrollTop: 0}, 200);
         }
 
         function resetErrorMessage() {
             vm.error = '';
-        }
-
-        function getErrorElement() {
-            var el = document.getElementById('error-msg');
-            return angular.element(el)[0];
         }
     }
 })();
