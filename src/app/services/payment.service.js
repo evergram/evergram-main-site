@@ -5,8 +5,8 @@
         .module('pixy')
         .factory('PaymentService', PaymentService);
 
-    PaymentService.$inject = ['Restangular', 'stripe', 'lodash'];
-    function PaymentService(restangular, stripe, lodash) {
+    PaymentService.$inject = ['$q', 'Restangular', 'stripe', 'lodash'];
+    function PaymentService($q, restangular, stripe, lodash) {
         var ENDPOINT = '/payment-gateways/stripe';
         var service = {};
 
@@ -41,7 +41,7 @@
 
             return restangular.all(ENDPOINT + '/customer').
             post(data).
-            then(handleSuccess, handleError('Error creating stripe customer'));
+            then(handleSuccess, handleError);
         }
 
         function updateCustomer(id, user, sourceId) {
@@ -49,7 +49,7 @@
 
             return restangular.all(ENDPOINT + '/customer/' + id).
             customPUT(data).
-            then(handleSuccess, handleError('Error creating stripe customer'));
+            then(handleSuccess, handleError);
         }
 
         function getCustomerData(user, sourceId) {
@@ -78,12 +78,7 @@
         }
 
         function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+            return $q.reject(error.data || error);
         }
     }
 })();

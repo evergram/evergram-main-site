@@ -21,17 +21,16 @@
             if (!!querystring.id) {
                 return findById(querystring.id);
             } else {
-                return $q.reject('No id found in querystring');
+                return handleError('No id found in querystring');
             }
         }
 
         function findById(id) {
-            return restangular.one(ENDPOINT + '/' + id).get().then(handleSuccess,
-                handleError('Error getting user by id'));
+            return restangular.one(ENDPOINT + '/' + id).get().then(handleSuccess, handleError);
         }
 
         function create(data) {
-            return restangular.all(ENDPOINT).post(data).then(handleSuccess, handleError('Error creating user'));
+            return restangular.all(ENDPOINT).post(data).then(handleSuccess, handleError);
         }
 
         // private functions
@@ -41,12 +40,7 @@
         }
 
         function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+            return $q.reject(error.data || error);
         }
     }
 })();

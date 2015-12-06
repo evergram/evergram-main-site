@@ -6,15 +6,15 @@ var inject = require('gulp-inject-string');
 var gutil = require('gulp-util');
 var bucket = 'secure-printwithpixy-com';
 
-gulp.task('config:production', function() {
+gulp.task('build:production', ['build'], function() {
     gutil.log('Setting production config.');
     // sets the production config overrides
     gulp.src('./dist/index.html')
-        .pipe(inject.after('</title>', '<script>window.IS_PROD=true;</script>'))
+        .pipe(inject.after('</title>', '<script>window.IS_PIXY_PROD=true;</script>'))
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('deploy', ['config:production'], function() {
+gulp.task('deploy', ['build:production'], function() {
     if (!!process.env.AWS_ACCESS_KEY_ID && !!process.env.AWS_SECRET_ACCESS_KEY) {
 
         var publisher = awspublish.create({

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var IS_PROD = !!window.IS_PROD;
+    var IS_PIXY_PROD = !!window.IS_PIXY_PROD;
 
     /*globals document, window */
     angular
@@ -10,14 +10,14 @@
         .constant('lodash', window._)
         .constant('analytics', window.analytics)
         .constant('pixyConfig', {
-            API_ENDPOINT: IS_PROD ? 'https://api.printwithpixy.com/v1' : 'http://localhost:8080/v1',
-            SITE_ENDPOINT: IS_PROD ? 'https://secure.printwithpixy.com' : 'http://localhost:3000',
+            API_ENDPOINT: IS_PIXY_PROD ? 'https://api.dev.printwithpixy.com/v1' : 'http://localhost:8080/v1',
+            SITE_ENDPOINT: IS_PIXY_PROD ? 'https://secure.printwithpixy.com' : 'http://localhost:3000',
             INSTAGRAM_ENDPOINT: '/auth/instagram',
             STRIPE: {
-                KEY: IS_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
+                KEY: IS_PIXY_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
             },
             SEGMENT: {
-                KEY: IS_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
+                KEY: IS_PIXY_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
             },
             PLANS: {
                 DEFAULT: 'PAYG',

@@ -43,14 +43,8 @@
                 templateUrl: 'app/controllers/failed/failed.html',
                 controller: 'FailedController',
                 controllerAs: 'home'
-            })
-            .state('home', {
-                url: '/',
-                templateUrl: 'app/controllers/home/home.html',
-                controller: 'SignupStep1Controller',
-                controllerAs: 'home'
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/choose-a-plan');
     }
 })();

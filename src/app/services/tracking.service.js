@@ -5,8 +5,8 @@
         .module('pixy')
         .factory('TrackingService', TrackingService);
 
-    TrackingService.$inject = ['Restangular'];
-    function TrackingService(restangular) {
+    TrackingService.$inject = ['$q', 'Restangular'];
+    function TrackingService($q, restangular) {
         var ENDPOINT = '/events';
         var service = {};
 
@@ -30,7 +30,7 @@
 
             return restangular.all(ENDPOINT + '/signed-up').
             post(data).
-            then(handleSuccess, handleError('Error creating signed up event'));
+            then(handleSuccess, handleError);
         }
 
         // private functions
@@ -39,12 +39,7 @@
         }
 
         function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+            return $q.reject(error.data || error);
         }
     }
 })();
