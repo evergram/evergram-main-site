@@ -62,6 +62,21 @@
                 controller: 'FailedController',
                 controllerAs: 'home'
             })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'app/controllers/login/login.html',
+                controller: 'LoginController',
+                controllerAs: 'login'
+            })
+            .state('my-account', {
+                url: '/my-account',
+                templateUrl: 'app/controllers/my-account/my-account.html',
+                controller: 'MyAccountController',
+                controllerAs: 'myAccount',
+                data: {
+                    requireLogin: true
+                }
+            })
             .state('test', {
                 url: '/test',
                 templateUrl: 'app/controllers/home/home.html',

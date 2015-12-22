@@ -9,7 +9,8 @@
         return {
             restrict: 'EA',
             scope: {
-                redirectTo: '@'
+                redirectTo: '@',
+                buttonImgSrc: '@'
             },
             templateUrl: 'app/directives/instagram/instagram.directive.html',
             controller: ['$scope', '$location', '$window', '$httpParamSerializer', 'pixyConfig',
