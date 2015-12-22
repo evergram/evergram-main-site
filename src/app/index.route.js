@@ -38,6 +38,21 @@
                 controller: 'SignupCompleteController',
                 controllerAs: 'complete'
             })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'app/controllers/login/login.html',
+                controller: 'LoginController',
+                controllerAs: 'login'
+            }) 
+            .state('my-account', {
+                url: '/my-account',
+                templateUrl: 'app/controllers/my-account/my-account.html',
+                controller: 'MyAccountController',
+                controllerAs: 'myAccount',
+                data: {
+                    requireLogin: true
+                }
+            })
             .state('failed', {
                 url: '/failed',
                 templateUrl: 'app/controllers/failed/failed.html',
