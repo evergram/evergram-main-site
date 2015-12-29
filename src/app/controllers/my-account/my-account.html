@@ -1,12 +1,61 @@
-<div class="container"]>
-    <div class="row content-area">
-        <div class="col-xs-12 center">
-            <div ng-model="myAccount.user as user">
-			  <h1>Name = {{user.firstname}} {{user.lastname}}</h1>
-			  <img class="profile" src="{{user.instagram.profile}}"/>
-			  <p>{{user.address}}</p>
+<div class="container content-area">
+    <div class="user-profile" ng-model="myAccount.user">
+        <div class="row">
+            <div class="col-xs-4 col-sm-3 col-sm-offset-2 col-md-2 col-md-offset-4"> 			
+            	<img ng-model="myAccount.user" class="profile-pic" src="{{myAccount.user.instagram.profilePicture || 'assets/images/ig-empty-profile.jpg'}}"/>
+            </div>
+			<div class="user-details col-xs-8 col-sm-7 col-md-6">
+            	<span class="sub-heading">Welcome back!</span><br/>
+				<h1>{{myAccount.user.firstName}} {{myAccount.user.lastName}}</h1>
+				<p>
+					{{myAccount.user.email}} <br/>
+					{{myAccount.user.address.line1}}, {{myAccount.user.address.suburb}}, {{myAccount.user.address.state}}, {{myAccount.user.address.postcode}}<br/>
+					(<a ng-click="myAccount.editCustomerDetails(myAccount.user)">Change these details</a>)
+				</p>
 			</div>
-        </div>
+		</div>
     </div>
-    
+
+    <div class="photo-summary" ng-model="myAccount">
+	    <div class="row">
+	    	<div class="col-xs-12 col-md-4 left title">
+		    	<h2 class="bold">Your photo order...</h2>
+		    	Need some help? <a class="bold" href="javascript:Intercom.('open')">Talk to us</a>
+		    </div>
+		    <div class="col-xs-6 col-md-4">
+		    	<span class="sub-heading">photos</span><br/>
+		    	<span class="large-type">{{myAccount.imageSets.images.instagram.length || 0}}</span>
+		    </div>
+		    <div class="col-xs-6 col-md-4">
+		    	<span class="sub-heading">send date</span><br/>
+		    	<span class="large-type">{{myAccount.user.signupCompletedOn | amAdd: myAccount.imageSets.period+1 : 'months' |  amDateFormat: 'Do MMM'}}</span>
+		    </div>
+	    </div>
+	</div>
+
+    <div class="row photos" ng-model="myAccount.imageSets">
+    	<div class="row">
+		    <div class="col-xs-12">
+		    	<p>
+			    	<h2>Your latest photos</h2>
+			    	<span class="light italic">Last updated: {{myAccount.user.jobs.instagram.lastRunOn | amTimeAgo}} </span> | 
+			    	<span class="light italic">Next checking for photos: {{myAccount.user.jobs.instagram.nextRunOn | amUtc | amLocal | amDateFormat : 'MMM Do, h:mm a'}}</span>
+				</p>
+		    </div>
+	    </div>
+    	<div class="row">
+    		<div ng-repeat="photo in myAccount.imageSets.images.instagram | orderBy: '-taggedOn'">
+		        <div class="col-xs-6 col-sm-4 photo"> <!-- add orderby and filtering -->
+		        	<a href="{{photo.metadata.link}}" target="_blank"><img src="{{photo.metadata.images.standard_resolution.url}}" width="100%" height="100%"/></a>
+		        	<p class="photoCaption">
+		        		<b>Photo number:</b> {{myAccount.imageSets.images.instagram.length - $index}}<br/>
+		        		<b>Tagged on:</b> {{photo.taggedOn | amDateFormat: 'Do MMM YYYY'}}<br/>
+		        		<b>Caption:</b> {{photo.metadata.caption.text}}<br/>
+		        	</p>
+
+		     	</div>
+		    </div>
+	    </div>
+    </div>
+
 </div> 
