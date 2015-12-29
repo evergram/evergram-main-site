@@ -8,6 +8,7 @@
     /** @ngInject */
     function runBlock($rootScope, $log, $state) {
 
+    	/*
     	// force login for routes where data.requireLogin = true
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
@@ -20,7 +21,7 @@
 		      //$state.go('/login', toParams);
 		      
 		    }
-		});
+		});*/
 
         $log.debug('runBlock end');
     }

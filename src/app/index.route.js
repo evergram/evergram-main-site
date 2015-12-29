@@ -48,10 +48,7 @@
                 url: '/my-account',
                 templateUrl: 'app/controllers/my-account/my-account.html',
                 controller: 'MyAccountController',
-                controllerAs: 'myAccount',
-                data: {
-                    requireLogin: true
-                }
+                controllerAs: 'myAccount'
             })
             .state('failed', {
                 url: '/failed',

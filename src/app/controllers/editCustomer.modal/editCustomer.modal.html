@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3 class="modal-title center">Change your details</h3>
+</div>
+<div class="modal-body" ng-model="editCustomerModal">
+	<div ng-show="editCustomerModal.error">
+        <div id="error-msg" class="alert alert-danger">{{editCustomerModal.error}}</div>
+    </div>
+    <customer-details parent-forms="editCustomerModal.forms" parent-form="customerDetails" user="editCustomerModal.user"></customer-details>
+	<address-details parent-forms="editCustomerModal.forms" parent-form="addressDetails" user="editCustomerModal.user"></address-details>
+</div>
+<div class="modal-footer">
+    <a ng-click="editCustomerModal.cancel()">Cancel</a> &nbsp;
+    <button class="btn btn-primary" type="button" ng-click="editCustomerModal.save()">Save</button>
+</div>

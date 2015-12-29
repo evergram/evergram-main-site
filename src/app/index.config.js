@@ -6,7 +6,7 @@
         .config(config);
 
     /** @ngInject */
-    function config($locationProvider, RestangularProvider, stripeProvider, analytics, pixyConfig) {
+    function config($locationProvider, RestangularProvider, stripeProvider, analytics, pixyConfig, NotificationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
@@ -20,5 +20,17 @@
 
         // load segment io
         analytics.load(pixyConfig.SEGMENT.KEY);
+
+        // setup ui-notifications config
+        NotificationProvider.setOptions({
+            delay: 4000,
+            startTop: 20,
+            startRight: 10,
+            verticalSpacing: 20,
+            horizontalSpacing: 20,
+            positionX: 'center',
+            positionY: 'top',
+            replaceMessage: true
+        });
     }
 })();
