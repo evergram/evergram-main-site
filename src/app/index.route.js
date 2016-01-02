@@ -26,11 +26,17 @@
                 controller: 'SignupStep2Controller',
                 controllerAs: 'step2'
             })
+            .state('redeem-step-1', {
+                url: '/redeem-step-1',
+                templateUrl: 'app/controllers/redeem-step-1/redeem-step-1.html',
+                controller: 'RedeemStep1Controller',
+                controllerAs: 'step1'
+            })
             .state('redeem-step-2', {
                 url: '/redeem-step-2',
                 templateUrl: 'app/controllers/redeem-step-2/redeem-step-2.html',
                 controller: 'RedeemStep2Controller',
-                controllerAs: 'redeem'
+                controllerAs: 'step2'
             })
             .state('signup-complete', {
                 url: '/signup-complete',
@@ -42,6 +48,12 @@
                 url: '/failed',
                 templateUrl: 'app/controllers/failed/failed.html',
                 controller: 'FailedController',
+                controllerAs: 'home'
+            })
+            .state('home', {
+                url: '/test',
+                templateUrl: 'app/controllers/home/home.html',
+                controller: 'HomeController',
                 controllerAs: 'home'
             });
 

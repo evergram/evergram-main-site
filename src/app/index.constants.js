@@ -1,7 +1,9 @@
 (function() {
     'use strict';
 
-    var IS_PIXY_PROD = !!window.IS_PIXY_PROD;
+    // TODO change back after testing is complete
+    var IS_PIXY_PROD = false;
+    //var IS_PIXY_PROD = !!window.IS_PIXY_PROD;
 
     /*globals document, window */
     angular

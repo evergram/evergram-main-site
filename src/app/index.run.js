@@ -6,8 +6,11 @@
         .run(runBlock);
 
     /** @ngInject */
-    function runBlock($log) {
-        $log.debug('runBlock end');
+    function runBlock($rootScope, $anchorScroll) {
+        // scroll to top when route changes.
+        $rootScope.$on('$stateChangeStart', function() {
+            $anchorScroll();
+        });
     }
 
 })();

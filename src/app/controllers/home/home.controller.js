@@ -13,9 +13,6 @@
         vm.reauthUrl = pixyConfig.API_ENDPOINT +
             '/auth/instagram?action=reauth';
 
-        vm.redeemUrl = pixyConfig.API_ENDPOINT +
-            '/auth/instagram?' +
-            'plan=' + encodeURIComponent('PROMO-LIMIT-10') + '&' +
-            'redirect_url=' + encodeURIComponent(pixyConfig.SITE_ENDPOINT + '/redeem-step-2');
+        vm.redeemUrl = '/redeem-step-1?plan=' + encodeURIComponent('PROMO-LIMIT-10');
     }
 })();
