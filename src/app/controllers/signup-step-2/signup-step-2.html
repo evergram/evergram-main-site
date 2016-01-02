@@ -10,8 +10,8 @@
                 <br>
             </div>
 
-            <div ng-show="step2.error">
-                <div id="error-msg" class="alert alert-danger">{{step2.error}}</div>
+            <div id="error-msg" ng-show="step2.error">
+                <div class="alert alert-danger">{{step2.error}}</div>
             </div>
             <div cg-busy="{promise:step2.overlay,message:'Loading',templateUrl:'app/directives/busy/busy.html'}">
                 <customer-details parent-forms="step2.forms" parent-form="customerDetails" user="step2.user"></customer-details>

@@ -2,8 +2,9 @@
 <html ng-app="pixy">
 <head>
     <meta charset="utf-8">
-    <title>Pixy</title>
-    <meta name="description" content="">
+    <title>Pixy.</title>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta name="description" content="Your Instagram photos. Automagically printed &amp; delivered to your door. Every month.">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
@@ -34,7 +35,7 @@
 <div snap-drawer="left">
     <pixy-mobile-nav></pixy-mobile-nav>
 </div>
-<div snap-content snap-opt-disable="'right'">
+<div snap-content snap-opt-touch-to-drag="false">
     <pixy-nav></pixy-nav>
     <div ui-view ng-cloak></div>
     <pixy-social-strip></pixy-social-strip>

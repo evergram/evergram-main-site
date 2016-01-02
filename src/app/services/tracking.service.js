@@ -5,12 +5,13 @@
         .module('pixy')
         .factory('TrackingService', TrackingService);
 
-    TrackingService.$inject = ['$q', 'Restangular'];
-    function TrackingService($q, restangular) {
+    TrackingService.$inject = ['$q', 'Restangular', '$analytics'];
+    function TrackingService($q, restangular, $analytics) {
         var ENDPOINT = '/events';
         var service = {};
 
         service.signedUp = signedUp;
+        service.signupStarted = signupStarted;
 
         return service;
 
@@ -31,6 +32,13 @@
             return restangular.all(ENDPOINT + '/signed-up').
             post(data).
             then(handleSuccess, handleError);
+        }
+
+        function signupStarted(plan) {
+            // TODO work out how to get a callback / promise that the event is tracked.
+            $analytics.eventTrack('Start signup', {
+                plan: plan.code
+            });
         }
 
         // private functions

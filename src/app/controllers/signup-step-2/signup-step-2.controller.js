@@ -107,7 +107,7 @@
                 }).
                 catch(function(err) {
                     if (err.type && /^Stripe/.test(err.type)) {
-                        setErrorMessage('Stripe error: ' + err.message);
+                        setErrorMessage('Payment error: ' + (err.raw.message || err.message));
                     } else {
                         setErrorMessage('An error occurred: ' + err.message);
                     }
