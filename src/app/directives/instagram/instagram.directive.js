@@ -29,7 +29,7 @@
                      * @param url
                      */
                     this.setRedirectUrl = function(url) {
-                        redirectUrl = pixyConfig.SITE_ENDPOINT + '/#!/' + url;
+                        redirectUrl = pixyConfig.SITE_ENDPOINT + pixyConfig.SITE_HASHBANG + url;
                     };
 
                     /**

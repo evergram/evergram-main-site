@@ -5,14 +5,22 @@
         .module('pixy')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['pixyConfig'];
-    function HomeController(pixyConfig) {
+    HomeController.$inject =
+        [
+            '$httpParamSerializer',
+            'pixyConfig'
+        ];
+    function HomeController($httpParamSerializer, pixyConfig) {
         /*jshint unused: false*/
         var vm = this;
 
-        vm.reauthUrl = pixyConfig.API_ENDPOINT +
-            '/auth/instagram?action=reauth';
+        var redeemParams = {};
 
-        vm.redeemUrl = '/redeem-step-1?plan=' + encodeURIComponent('PROMO-LIMIT-10');
+        vm.reauthUrl = pixyConfig.ENDPOINTS.CONNECT;
+
+        redeemParams[pixyConfig.QUERYSTRING.PLAN] = 'PROMO-LIMIT-10';
+        vm.redeemUrl = pixyConfig.ENDPOINTS.REDEEM + '?' + $httpParamSerializer(redeemParams);
+
+        vm.choosePlanUrl = pixyConfig.ENDPOINTS.CHOOSE_PLAN;
     }
 })();

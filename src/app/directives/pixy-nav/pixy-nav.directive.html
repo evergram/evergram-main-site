@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default" ng-cloak>
-    <div class="container-fluid">
+<nav class="navbar navbar-default" bs-navbar ng-cloak>
+    <div class="container-fluid" bs-collapse data-start-collapsed="true">
         <div class="navbar-header">
             <div class="navbar-brand">
                 <a href="http://www.printwithpixy.com">
@@ -7,12 +7,12 @@
                 </a>
             </div>
             <div class="navbar-right">
-                <button snap-toggle type="button" class="navbar-toggle">
+                <button snap-toggle type="button" class="navbar-toggle btn" bs-collapse-toggle>
                     MENU <i class="fa fa-fw fa-bars"></i>
                 </button>
             </div>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" bs-collapse-target>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="http://www.printwithpixy.com/guaranteed/">100% Satisfaction guaranteed</a></li>
                 <li><a href="http://www.printwithpixy.com/blog/">Our Blog</a></li>

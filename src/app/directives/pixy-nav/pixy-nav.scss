@@ -1,56 +1,81 @@
-.navbar-nav > li > a, footer {
-  color: $white !important;
-  font-family: "futura-pt", sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 500;
-  letter-spacing: 2px;
-  line-height: 13px;
-  margin: 5px;
-  text-transform: uppercase;
-  text-align: center;
+@import "../../../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables";
 
-  a {
-    color: $white;
-    text-decoration: none;
-  }
+.navbar-nav > li > a,
+footer {
+    color: $white !important;
+    font-family: "futura-pt", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 13px;
+    margin: 5px;
+    text-transform: uppercase;
+    text-align: center;
 
-  .footer-links {
-
-    margin-bottom: 20px;
-
-    li {
-      display: inline;
-      list-style-image: none;
-      list-style-position: outside;
-      list-style-type: none;
-      padding: 0 10px;
+    a {
+        color: $white;
+        text-decoration: none;
     }
-  }
+
+    .footer-links {
+        margin-bottom: 20px;
+
+        li {
+            display: inline;
+            list-style-image: none;
+            list-style-position: outside;
+            list-style-type: none;
+            padding: 0 10px;
+        }
+    }
+}
+
+.navbar-nav > li > a {
+    padding: 15px;
 }
 
 .navbar-brand {
-  padding: 0px;
-  margin-left: 10px !important;
+    padding: 0px;
+    margin-left: 10px !important;
 }
 
 .navbar-right button {
-  border: none;
-  color: $white;
+    border: none;
+    color: $white;
 }
 
 .navbar-toggle:focus {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .icon-bar {
-  clear: none;
-  display: inline-block !important;
-  background-color: $white !important;
+    clear: none;
+    display: inline-block !important;
+    background-color: $white !important;
 }
 
-.navbar, footer {
-  height: 140px;
-  background-color: $pixy-nav-color;
-  padding: 40px 20px;
+.navbar {
+    z-index: 1000;
+}
+
+.navbar-header,
+.navbar-nav,
+footer {
+    padding: 40px 20px;
+}
+
+.navbar,
+footer {
+    height: 140px;
+    background-color: $pixy-nav-color;
+}
+
+@media(max-width: $screen-xs-max) {
+    .navbar-nav {
+        padding: 10px;
+    }
+    .navbar-collapse {
+        background-color: $pixy-nav-color;
+    }
 }

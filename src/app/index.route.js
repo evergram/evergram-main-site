@@ -44,6 +44,18 @@
                 controller: 'SignupCompleteController',
                 controllerAs: 'complete'
             })
+            .state('connect', {
+                url: '/connect',
+                templateUrl: 'app/controllers/connect/connect.html',
+                controller: 'ConnectController',
+                controllerAs: 'connect'
+            })
+            .state('connect-complete', {
+                url: '/connect-complete',
+                templateUrl: 'app/controllers/connect-complete/connect-complete.html',
+                controller: 'ConnectCompleteController',
+                controllerAs: 'connect'
+            })
             .state('failed', {
                 url: '/failed',
                 templateUrl: 'app/controllers/failed/failed.html',

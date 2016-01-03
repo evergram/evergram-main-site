@@ -1,9 +1,16 @@
 (function() {
     'use strict';
 
-    // TODO change back after testing is complete
-    var IS_PIXY_PROD = false;
-    //var IS_PIXY_PROD = !!window.IS_PIXY_PROD;
+    var IS_PIXY_PROD = !!window.IS_PIXY_PROD;
+
+    var API_ENDPOINT = IS_PIXY_PROD ? 'https://api.dev.printwithpixy.com/v1' : 'http://localhost:8080/v1';
+    var SITE_ENDPOINT = IS_PIXY_PROD ? 'https://secure.printwithpixy.com' : 'http://localhost:3000';
+    var INSTAGRAM_ENDPOINT = '/auth/instagram';
+
+    var SITE_HASHBANG = '/#!/';
+    var AUTH_ACTIONS = {
+        REAUTH: 'reauth'
+    };
 
     /*globals document, window */
     angular
@@ -12,14 +19,28 @@
         .constant('lodash', window._)
         .constant('analytics', window.analytics)
         .constant('pixyConfig', {
-            API_ENDPOINT: IS_PIXY_PROD ? 'https://api.dev.printwithpixy.com/v1' : 'http://localhost:8080/v1',
-            SITE_ENDPOINT: IS_PIXY_PROD ? 'https://secure.printwithpixy.com' : 'http://localhost:3000',
+            API_ENDPOINT: API_ENDPOINT,
+            SITE_ENDPOINT: SITE_ENDPOINT,
+            SITE_HASHBANG: SITE_HASHBANG,
             INSTAGRAM_ENDPOINT: '/auth/instagram',
+            // TODO change back after testing is complete
             STRIPE: {
-                KEY: IS_PIXY_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
+                //KEY: IS_PIXY_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
+                KEY: IS_PIXY_PROD ? 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
             },
             SEGMENT: {
-                KEY: IS_PIXY_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
+                //KEY: IS_PIXY_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
+                KEY: IS_PIXY_PROD ? 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
+            },
+            ENDPOINTS: {
+                INSTAGRAM: {
+                    AUTH: API_ENDPOINT + INSTAGRAM_ENDPOINT,
+                    CONNECT: API_ENDPOINT + INSTAGRAM_ENDPOINT + '?action=' + AUTH_ACTIONS.REAUTH
+                },
+                CHOOSE_PLAN: SITE_ENDPOINT + SITE_HASHBANG + 'choose-a-plan',
+                CONNECT: SITE_ENDPOINT + SITE_HASHBANG + 'connect',
+                CONNECT_COMPLETE: SITE_ENDPOINT + SITE_HASHBANG + 'connect-complete',
+                REDEEM: SITE_ENDPOINT + SITE_HASHBANG + 'redeem-step-1'
             },
             PLANS: {
                 DEFAULT: 'PAYG',
