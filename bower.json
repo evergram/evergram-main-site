@@ -21,7 +21,8 @@
     "angular-snap": "~1.8.5",
     "angular-moment": "1.0.0-beta.3",
     "moment": "~2.10.6",
-    "angular-ui-notification": "~0.1.0"
+    "angular-ui-notification": "~0.1.0",
+    "angular-sanitize": "~1.4.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"

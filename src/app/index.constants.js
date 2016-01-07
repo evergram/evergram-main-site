@@ -71,6 +71,7 @@
                 }
             },
             QUERYSTRING: {
+                ACTION: 'action',
                 REDIRECT_URL: 'redirect_url',
                 PLAN: 'plan'
             }
