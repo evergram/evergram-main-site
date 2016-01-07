@@ -49,8 +49,6 @@
 
             });
 
-            // if user not found, redirect back to login with a failure message???
-
         } else {
             return handleError('No id found in querystring');
         }
