@@ -11,8 +11,7 @@
                                     'ImageSetService',
                                     '$log',
                                     '$location',
-                                    '$uibModal',
-                                    'moment'];
+                                    '$uibModal'];
 
     function MyAccountController(pixyConfig, 
                                  $scope, 
@@ -20,8 +19,7 @@
                                  imageSetService, 
                                  $log, 
                                  $location, 
-                                 $uibModal, 
-                                 moment) {
+                                 $uibModal) {
         
         var vm = this;
 
@@ -50,7 +48,7 @@
             });
 
         } else {
-            return handleError('No id found in querystring');
+            return $location.url('/login?err=' + encodeURIComponent('No id found in querystring'));
         }
 
         vm.editCustomerDetails = function() {
@@ -66,6 +64,6 @@
 		        }
 		      }
 		    });
-        }
-    };
+        };
+    }
 })();

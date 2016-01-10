@@ -30,7 +30,7 @@
                 then(function(){
 
                     Notification.success({message: 'Ok, got it. Your new details have been saved.'});
-                    $uibModalInstance.close()
+                    $uibModalInstance.close();
                 
                 });
             } else {
@@ -63,8 +63,5 @@
             //vm.error = message;
         }
 
-        function resetErrorMessage() {
-            //vm.error = '';
-        }
     }
 })();
