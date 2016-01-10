@@ -19,7 +19,7 @@
         function getAll(userid) {
 
             if (!!userid) {
-                return restangular.one(ENDPOINT + '/' + userid + '/all').get().then(handleSuccess, handleError);
+                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets').get().then(handleSuccess, handleError);
             } else {
                 return handleError('No userid provided');
             }
@@ -30,7 +30,7 @@
             $log.log(ENDPOINT + '/' + userid + '/current');
 
             if (!!userid) {
-                return restangular.one(ENDPOINT + '/' + userid + '/current').get().then(handleSuccess, handleError);
+                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets/current').get().then(handleSuccess, handleError);
             } else {
                 return handleError('No userid provided');
             }
@@ -39,7 +39,7 @@
         function getById(userid, id) {
 
             if (!!userid && !!id) {
-                return restangular.one(ENDPOINT + '/' + userid + '/' + id).get().then(handleSuccess, handleError);
+                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets/' + id).get().then(handleSuccess, handleError);
             } else {
                 return handleError('No userid or imagesetid provided');
             }
