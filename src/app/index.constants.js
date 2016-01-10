@@ -7,7 +7,7 @@
     var SITE_ENDPOINT = IS_PIXY_PROD ? 'https://secure.printwithpixy.com' : 'http://localhost:3000';
     var INSTAGRAM_ENDPOINT = '/auth/instagram';
 
-    var SITE_HASHBANG = '/#!/';
+    var SITE_HASHBANG = '/#/';
     var AUTH_ACTIONS = {
         REAUTH: 'reauth'
     };

@@ -62,7 +62,7 @@
                 controller: 'FailedController',
                 controllerAs: 'home'
             })
-            .state('home', {
+            .state('test', {
                 url: '/test',
                 templateUrl: 'app/controllers/home/home.html',
                 controller: 'HomeController',
