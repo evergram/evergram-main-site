@@ -27,6 +27,11 @@
             				'<b>New to Pixy?</b> <a href="/choose-a-plan">Check out our awesome plans</a>.'
             	};
 
+            } else if (error === "No id found in querystring") {
+                vm.err = {
+                    error: error,
+                    message: 'Oops, try logging in again or double check the customer ID.'
+                };
             }
 
         } else {
