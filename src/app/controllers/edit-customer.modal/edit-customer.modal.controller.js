@@ -5,14 +5,13 @@
         .module('pixy')
         .controller('EditCustomerModal', EditCustomerModal);
 
-    EditCustomerModal.$inject = ['pixyConfig','$uibModalInstance','$log','user','Notification'];
+    EditCustomerModal.$inject = ['$uibModalInstance', 'user', 'Notification'];
 
-    function EditCustomerModal(pixyConfig, $uibModalInstance, $log, user, Notification) {
-        
+    function EditCustomerModal($uibModalInstance, user, Notification) {
         var vm = this;
 
         vm.error = '';
-        
+
         // bindings for directives to ensure they are valid
         vm.forms = {
             customerDetails: {},
@@ -21,28 +20,25 @@
 
         vm.user = user;
 
-
-        vm.save = function () {
+        vm.save = function() {
             // if all valid
             if (isValid()) {
                 // update user
                 vm.user.put().
-                then(function(){
+                then(function() {
 
                     Notification.success({message: 'Ok, got it. Your new details have been saved.'});
                     $uibModalInstance.close();
-                
+
                 });
             } else {
                 setErrorMessage('Oops, looks like you missed something. Please complete all form fields');
             }
         };
 
-        vm.cancel = function () {
+        vm.cancel = function() {
             $uibModalInstance.dismiss('cancel');
         };
-        
-
 
         function isValid() {
             // call validate on all forms to show/hide errors
@@ -58,10 +54,8 @@
         }
 
         function setErrorMessage(err) {
-            
             Notification.error({message: err});
             //vm.error = message;
         }
-
     }
 })();

@@ -5,9 +5,8 @@
         .module('pixy')
         .factory('ImageSetService', ImageSetService);
 
-    ImageSetService.$inject = ['$location', '$q', 'Restangular', '$log'];
-    function ImageSetService($location, $q, restangular, $log) {
-        var ENDPOINT = '/imagesets';
+    ImageSetService.$inject = ['$q', 'Restangular'];
+    function ImageSetService($q, restangular) {
         var service = {};
 
         service.getAll = getAll;
@@ -17,29 +16,27 @@
         return service;
 
         function getAll(userid) {
-
             if (!!userid) {
-                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets').get().then(handleSuccess, handleError);
+                return restangular.one('/users/' + userid + '/image-sets').get().then(handleSuccess,
+                    handleError);
             } else {
                 return handleError('No userid provided');
             }
         }
 
         function getCurrent(userid) {
-
-            $log.log(ENDPOINT + '/' + userid + '/current');
-
             if (!!userid) {
-                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets/current').get().then(handleSuccess, handleError);
+                return restangular.one('/users/' + userid + '/image-sets/current').get().then(handleSuccess,
+                    handleError);
             } else {
                 return handleError('No userid provided');
             }
         }
 
         function getById(userid, id) {
-
             if (!!userid && !!id) {
-                return restangular.one(ENDPOINT + '/users/' + userid + '/images-sets/' + id).get().then(handleSuccess, handleError);
+                return restangular.one('/users/' + userid + '/image-sets/' + id).get().then(handleSuccess,
+                    handleError);
             } else {
                 return handleError('No userid or imagesetid provided');
             }

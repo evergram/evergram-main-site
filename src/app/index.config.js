@@ -6,7 +6,7 @@
         .config(config);
 
     /** @ngInject */
-    function config($locationProvider, RestangularProvider, stripeProvider, analytics, pixyConfig) {
+    function config(NotificationProvider, RestangularProvider, stripeProvider, analytics, pixyConfig) {
         //$locationProvider.html5Mode({
         //    enabled: true,
         //    requireBase: false

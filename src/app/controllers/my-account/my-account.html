@@ -1,5 +1,5 @@
 <div class="container content-area">
-    <div class="user-profile" ng-model="myAccount.user">
+    <div class="user-profile ng-cloak" ng-model="myAccount.user" ng-cloak>
         <div class="row">
             <div class="col-xs-4 col-sm-3 col-sm-offset-2 col-md-2 col-md-offset-4"> 			
             	<img ng-model="myAccount.user" class="profile-pic" src="{{myAccount.user.instagram.profilePicture || 'assets/images/ig-empty-profile.jpg'}}"/>
@@ -10,13 +10,13 @@
 				<p>
 					{{myAccount.user.email}} <br/>
 					{{myAccount.user.address.line1}}, {{myAccount.user.address.suburb}}, {{myAccount.user.address.state}}, {{myAccount.user.address.postcode}}<br/>
-					(<a ng-click="myAccount.editCustomerDetails(myAccount.user)">Change these details</a>)
+					(<a href="" ng-click="myAccount.editCustomerDetails(myAccount.user)">Change these details</a>)
 				</p>
 			</div>
 		</div>
     </div>
 
-    <div class="photo-summary" ng-model="myAccount">
+    <div class="photo-summary ng-cloak" ng-model="myAccount" ng-cloak>
 	    <div class="row">
 	    	<div class="col-xs-12 col-md-4 left title">
 		    	<h2 class="bold">Your photo order...</h2>
@@ -33,7 +33,7 @@
 	    </div>
 	</div>
 
-    <div class="row photos" ng-model="myAccount.imageSets">
+    <div class="row photos ng-cloak" ng-model="myAccount.imageSets" ng-cloak>
     	<div class="row">
 		    <div class="col-xs-12">
 		    	<p>
