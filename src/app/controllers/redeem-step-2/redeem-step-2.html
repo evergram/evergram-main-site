@@ -16,7 +16,7 @@
                 <address-details parent-forms="step2.forms" parent-form="addressDetails" user="step2.user"></address-details>
 
                 <button type="submit" class="btn btn-lg btn-block" ng-click="step2.complete()">
-                    Complete Signup
+                    <i class="fa fa-refresh fa-spin" ng-show="step2.submitButtonSpinnerVisible"></i> Complete Signup
                 </button>
             </div>
         </div>
