@@ -18,7 +18,7 @@
 
         vm.reauthUrl = pixyConfig.ENDPOINTS.CONNECT;
 
-        redeemParams[pixyConfig.QUERYSTRING.PLAN] = 'PROMO-LIMIT-10';
+        redeemParams[pixyConfig.QUERYSTRING.PLAN] = 'GIFT6';
         vm.redeemUrl = pixyConfig.ENDPOINTS.REDEEM + '?' + $httpParamSerializer(redeemParams);
 
         vm.choosePlanUrl = pixyConfig.ENDPOINTS.CHOOSE_PLAN;

@@ -34,6 +34,7 @@
             cvc: ''
         };
         vm.error = '';
+        vm.submitButtonSpinnerVisible = false;
         vm.overlay = deferred.promise;
 
         // bindings for directives to ensure they are valid
@@ -70,6 +71,7 @@
          */
         vm.complete = function() {
             resetErrorMessage();
+            showButtonSpinner(true);
             vm.overlay = complete();
         };
 
@@ -111,10 +113,12 @@
                     } else {
                         setErrorMessage('An error occurred: ' + err.message);
                     }
+                    showButtonSpinner(false);
                     deferred.resolve();
                 });
             } else {
                 setErrorMessage('Please complete all form fields');
+                showButtonSpinner(false);
                 deferred.resolve();
             }
 
@@ -141,6 +145,10 @@
 
         function resetErrorMessage() {
             vm.error = '';
+        }
+
+        function showButtonSpinner(show) {
+            vm.submitButtonSpinnerVisible = show;
         }
     }
 })();
