@@ -25,12 +25,10 @@
             INSTAGRAM_ENDPOINT: '/auth/instagram',
             // TODO change back after testing is complete
             STRIPE: {
-                //KEY: IS_PIXY_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
-                KEY: IS_PIXY_PROD ? 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
+                KEY: IS_PIXY_PROD ? 'pk_live_QAuikbQoj5IyU9wdrUlXl62v' : 'pk_test_STOuGZQKq2LhVRLzSC8Qs3mJ'
             },
             SEGMENT: {
-                //KEY: IS_PIXY_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
-                KEY: IS_PIXY_PROD ? 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
+                KEY: IS_PIXY_PROD ? 'muRTZV1seEGRxPm6r1xswhZta9Xvvx3X' : 's1D3vxElH5eCPE5GvCgOYH4ISifPv8pk'
             },
             ENDPOINTS: {
                 INSTAGRAM: {
