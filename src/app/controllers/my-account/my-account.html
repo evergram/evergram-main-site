@@ -17,16 +17,20 @@
     </div>
 
     <div class="photo-summary ng-cloak" ng-model="myAccount" ng-cloak>
-	    <div class="row">
+	    <div class="row" ng-switch on="myAccount.limitPlanUser">
 	    	<div class="col-xs-12 col-md-4 left title">
 		    	<h2 class="bold">Your photo order...</h2>
-		    	Need some help? <a class="bold" href="javascript:Intercom.('open')">Talk to us</a>
+		    	Need some help? <a class="bold" href="mailto:hello@printwithpixy.com">Talk to us</a>
 		    </div>
 		    <div class="col-xs-6 col-md-4">
 		    	<span class="sub-heading">photos</span><br/>
 		    	<span class="large-type">{{myAccount.imageSets.images.instagram.length || 0}}</span>
 		    </div>
-		    <div class="col-xs-6 col-md-4">
+		    <div class="col-xs-6 col-md-4" ng-switch-when="true">
+		    	<span class="sub-heading">Sending</span><br/>
+		    	<span class="large-type-limit-plan">When you reach {{myAccount.limit}} photos</span>
+		    </div>
+		    <div class="col-xs-6 col-md-4" ng-switch-default>
 		    	<span class="sub-heading">send date</span><br/>
 		    	<span class="large-type">{{myAccount.user.signupCompletedOn | amAdd: myAccount.imageSets.period+1 : 'months' |  amDateFormat: 'Do MMM'}}</span>
 		    </div>
@@ -34,34 +38,48 @@
 	</div>
 
     <div class="row photos ng-cloak" ng-model="myAccount.imageSets" ng-cloak>
-    	<div class="row">
-		    <div class="col-xs-12">
+    	<div class="row" ng-switch on="myAccount.limitPlanUser">
+		    <div class="col-xs-12" ng-switch-when="true">
 		    	<p>
-			    	<h2>Your latest photos</h2>
+			    	<h2>Your photos</h2>
+			    	<!--span class="light italic">Last updated: {{myAccount.user.jobs.instagram.lastRunOn | amTimeAgo}} </span> | 
+			    	<span class="light italic">Next checking for photos: {{myAccount.user.jobs.instagram.nextRunOn | amUtc | amLocal | amDateFormat : 'MMM Do, h:mm a'}}</span-->
+				</p>
+		    </div>
+		    <div class="col-xs-12 ng-switch-default">
+		    	<p>
+			    	<h2>This month's photos</h2>
 			    	<!--span class="light italic">Last updated: {{myAccount.user.jobs.instagram.lastRunOn | amTimeAgo}} </span> | 
 			    	<span class="light italic">Next checking for photos: {{myAccount.user.jobs.instagram.nextRunOn | amUtc | amLocal | amDateFormat : 'MMM Do, h:mm a'}}</span-->
 				</p>
 		    </div>
 	    </div>
-    	<div class="row">
-    		<div ng-repeat="photo in myAccount.imageSets.images.instagram | orderBy: '-taggedOn'">
-		        <div class="col-xs-6 col-sm-4 photo"> <!-- add orderby and filtering -->
-		        	<a href="{{photo.metadata.link}}" target="_blank"><img src="{{photo.metadata.images.standard_resolution.url}}" width="100%" height="100%"/></a>
-		        	<p class="photoCaption">
-		        		<b>Photo number:</b> {{myAccount.imageSets.images.instagram.length - $index}}<br/>
-		        		<b>Tagged on:</b> {{photo.taggedOn | amDateFormat: 'Do MMM YYYY'}}<br/>
-		        		<b>Caption:</b> {{photo.metadata.caption.text}}<br/>
-		        	</p>
-
-		     	</div>
-		    </div>
-		    <div ng-show="!myAccount.imageSets.images.instagram.length">
-		        <div class="col-xs-6 col-sm-6 col-sm-offset-3">
+    	<div class="row" ng-switch on="myAccount.hasPhotos">
+    		
+		    <div ng-switch-when="false">
+		        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
 		        	<br/>
 		        	<p class="center">Oh no, doesn't look like we've got any of your photos yet! Remember, tell us what to print just mention <span class="bold">@printwithpixy</span> in your photo's <span class="bold">caption or comments</span>.</p>
-		        	<p class="bold">Need some help? <a href="//www.printwithpixy.com/contact">Get in-touch</a></p>
+		        	<p class="bold">Need some help? <a href="http://www.printwithpixy.com/contact">Get in-touch</a></p>
 		     	</div>
 		    </div>
+		    <div ng-switch-default>
+		    	<div class="col-xs-12">
+			    	<p class="light italic">
+			    		These photos are updated every couple of hours. So if you don't see your photo, check back in a little while.<br/>If it's still not here, please <a href="http://www.printwithpixy.com/contact">get in-touch</a> and we'll sort it out for you.</p>
+			    	<p class="light italic">Click a photo below to view it on Instagram.</p>
+			    </div>
+			    <div ng-repeat="photo in myAccount.imageSets.images.instagram | orderBy: '-taggedOn'">
+			        <div class="col-xs-6 col-sm-4 photo"> <!-- add orderby and filtering -->
+			        	<a href="{{photo.metadata.link}}" target="_blank"><img src="{{photo.metadata.images.standard_resolution.url}}" width="100%" height="100%"/></a>
+			        	<p class="photoCaption">
+			        		<b>Photo number:</b> {{myAccount.imageSets.images.instagram.length - $index}}<br/>
+			        		<b>Tagged on:</b> {{photo.taggedOn | amDateFormat: 'Do MMM YYYY'}}
+			        	</p>
+
+			     	</div>
+			    </div>
+			</div>
 	    </div>
     </div>
 
