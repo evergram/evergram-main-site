@@ -5,13 +5,14 @@
         .module('pixy')
         .factory('TrackingService', TrackingService);
 
-    TrackingService.$inject = ['$q', 'Restangular', '$analytics'];
-    function TrackingService($q, restangular, $analytics) {
+    TrackingService.$inject = ['$q', 'Restangular', '$analytics','$window','$location'];
+    function TrackingService($q, restangular, $analytics, $window, $location) {
         var ENDPOINT = '/events';
         var service = {};
 
         service.signedUp = signedUp;
         service.signupStarted = signupStarted;
+        service.trackPageView = trackPageView;
 
         return service;
 
@@ -39,6 +40,11 @@
             $analytics.eventTrack('Start signup', {
                 plan: plan.code
             });
+        }
+
+        // page view tracking for GA
+        function trackPageView() {
+            $window.ga('send', 'pageview', { page: $location.url() });
         }
 
         // private functions

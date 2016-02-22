@@ -22,6 +22,9 @@
 
         vm.user = {};
         vm.imageSets = {};
+        vm.limitPlanUser = false;
+        vm.limit = 0;
+        vm.hasPhotos = false;
 
         var querystring = $location.search();
 
@@ -31,12 +34,21 @@
             then(function(user) {
                 vm.user = user;
                 vm.user.signupCompletedOn = new Date(vm.user.signupCompletedOn);
+                vm.limitPlanUser = user.billing.option.indexOf('LIMIT') > -1 ? true : false;
+                if (vm.limitPlanUser) {
+                    vm.limit = user.billing.option.split("-")[2];
+                }
             }).
             then(function() {
                 return imageSetService.getCurrent(vm.user._id);
             }).
             then(function(imageSets) {
-                vm.imageSets = imageSets;
+                if (!!imageSets) {
+                    vm.imageSets = imageSets;
+                    if( imageSets.images.instagram.length > 0 ) {
+                        vm.hasPhotos = true;
+                    }
+                }
             });
 
         } else {
