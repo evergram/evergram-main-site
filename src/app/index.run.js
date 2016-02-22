@@ -2,12 +2,13 @@
     'use strict';
     angular
         .module('pixy')
-        .run(runBlock);
-
-    /** @ngInject */
-    function runBlock($rootScope, $anchorScroll) {
-        $rootScope.$on('$stateChangeStart', function() {
-            $anchorScroll();
-        });
-    }
+        .run(['$rootScope', '$anchorScroll', 'TrackingService',
+            function runBlock($rootScope, $anchorScroll, TrackingService) {
+                $rootScope.$on('$stateChangeStart', function() {
+                    $anchorScroll();
+                });
+                $rootScope.$on('$stateChangeSuccess', function() {
+                    TrackingService.trackPageView();
+                });
+            }]);
 })();
