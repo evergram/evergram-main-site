@@ -13,7 +13,8 @@
             'PaymentService',
             'PlanService',
             'TrackingService',
-            'UserService'
+            'UserService',
+            'ReferringUserService'
         ];
     function SignupStep2Controller(lodash,
                                    $state,
@@ -21,9 +22,11 @@
                                    paymentService,
                                    planService,
                                    trackingService,
-                                   userService) {
+                                   userService,
+                                   referringUserService) {
         var vm = this;
         var plan = planService.getFromQueryString() || planService.getDefault();
+        var referring_user = referringUserService.getFromQueryString() || '';
         var deferred = $q.defer();
 
         vm.user = {};
@@ -51,6 +54,9 @@
 
             // set the user plan
             vm.user.billing.option = plan.code;
+
+            // set referring user
+            vm.user.referringUser.instagramUsername = referring_user;
 
             if (!!vm.user.signupComplete) {
                 // redirect

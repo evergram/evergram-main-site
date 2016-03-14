@@ -19,12 +19,18 @@
 
                     var redirectUrl;
                     var action;
+                    var referringUser;
                     var plan = pixyConfig.PLANS.DEFAULT;
 
                     // check for a plan in the querystring
                     var querystring = $location.search();
                     if (!!querystring[pixyConfig.QUERYSTRING.PLAN]) {
                         plan = querystring[pixyConfig.QUERYSTRING.PLAN];
+                    }
+
+                    // check for a referring user in the querystring
+                    if (!!querystring[pixyConfig.QUERYSTRING.REFERRING_USER]) {
+                        referringUser = querystring[pixyConfig.QUERYSTRING.REFERRING_USER];
                     }
 
                     /**
@@ -51,6 +57,10 @@
                     $scope.connect = function() {
                         var params = {};
                         params[pixyConfig.QUERYSTRING.REDIRECT_URL] = redirectUrl;
+
+                        if (!!referringUser) {
+                            params[pixyConfig.QUERYSTRING.REFERRING_USER] = referringUser;
+                        }
 
                         if (!!action) {
                             params[pixyConfig.QUERYSTRING.ACTION] = action;

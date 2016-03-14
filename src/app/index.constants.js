@@ -84,6 +84,9 @@
                 PROMOGIFT6: {
                     code: 'PROMOGIFT6'
                 },
+                GIFT3: {
+                    code: 'GIFT3'
+                },
                 GIFT6: {
                     code: 'GIFT6'
                 },
@@ -94,6 +97,7 @@
             QUERYSTRING: {
                 ACTION: 'action',
                 REDIRECT_URL: 'redirect_url',
+                REFERRING_USER: 'referring_user',
                 PLAN: 'plan'
             }
         });

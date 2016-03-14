@@ -74,6 +74,12 @@
                 controller: 'MyAccountController',
                 controllerAs: 'myAccount'
             })
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'app/controllers/dashboard/dashboard.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard'
+            })
             .state('test', {
                 url: '/test',
                 templateUrl: 'app/controllers/home/home.html',
