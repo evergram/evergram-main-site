@@ -1,0 +1,372 @@
+<div class="container">
+    <div class="row contentarea">
+      <div class="col-sm-3">
+        <div class="chart-wrapper">
+          <div class="chart-stage" id="chart-01">
+        </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="chart-wrapper">
+         
+         <div class="chart-stage" id="chart-02">
+        </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="chart-wrapper">
+          
+        <div class="chart-stage" id="chart-03">
+        </div>
+          
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="chart-wrapper">
+          
+         <div class="chart-stage" id="chart-04">
+        </div>
+         
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="chart-wrapper">
+          
+         <div class="chart-stage" id="chart-05">
+        </div>
+          
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="chart-wrapper">
+          
+        <div class="chart-stage" id="chart-06">
+        </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="chart-wrapper">
+          
+        <div class="chart-stage" id="chart-07">
+        </div>
+          
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="chart-wrapper">
+         
+        <div class="chart-stage" id="chart-08">
+        </div>
+          
+        </div>
+      </div>
+    </div>
+      
+      <div class="row">
+      <div class="col-sm-3">
+        <div class="chart-wrapper">
+          
+        <div class="chart-stage" id="chart-09">
+        </div>
+          
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="chart-wrapper">
+          
+        <div class="chart-stage" id="chart-10">
+        </div>
+         
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+
+    <p class="small text-muted">Built with &#9829; by <a href="https://keen.io">Keen IO</a></p>
+
+  </div>
+
+  <link rel="stylesheet" type="text/css" href="/assets/css/keen-dashboards.css" />
+
+  <!--script type="text/javascript" src="../../assets/js/meta.js"></script-->
+
+<script>
+var client = new Keen({
+  projectId: "5597491096773d0859920906",
+  readKey: "10e77c6c333cb32b0e20c67357ea193ea30ea7fd4abcb6a547a80f8276f2764b8fcb945ccb63d851d1c155285e8f9957f9748fe2ae56ff6ceaac7146afef49a1d7297ed8b209b53f7f74b8aa4fa27cb4e157ca6d8bb9184aa4212c383e235dbe0f2f353c08a7ccd4c1ccbb5038aaa905"
+
+});
+Keen.ready(function(){
+  // ----------------------------------------
+  // Sample one
+  // ----------------------------------------
+    var revenue = new Keen.Query('sum', {
+          event_collection: 'Stripe_Events',
+          timeframe: 'last_30_days',
+          target_property: 'data.object.amount',
+          filters: [
+            {
+              property_name:'type',
+              operator:'eq',
+              property_value:'charge.succeeded'
+            }
+          ]
+      });
+
+
+      // ===============================
+      // Create a new Dataviz instance
+      // ===============================
+
+      var revMetric = new Keen.Dataviz()
+        .el(document.getElementById('chart-01'))
+        .chartOptions({
+            prefix: '$'
+        })
+        .prepare(); // start spinner
+
+      // ===============================
+      // Run query and handle the result
+      // ===============================
+
+      client.run(revenue, function(err, response){
+          // if (err) throw(err);
+          revMetric
+            .parseRawData({ result: Math.round(response.result/100) })
+            .title('Last 30 Days\' Revenue')
+            .render();
+      });
+  // ----------------------------------------
+  //  End sample one
+  // ----------------------------------------
+  // ----------------------------------------
+  // Sample two
+  // ----------------------------------------
+ var query = new Keen.Query("sum", {
+    eventCollection: "Stripe_Events",
+    filters: [
+    {
+        "operator": "eq",
+        "property_name": "type",
+        "property_value": "charge.succeeded"
+    }
+],
+    interval: "monthly",
+    targetProperty: "data.object.amount",
+    timeframe: "last_6_months",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-02'), {
+    // Custom configuration here
+    title: "Previous 6 months",
+     chartType: "linechart"
+  });
+  
+ 
+  // ----------------------------------------
+  // End sample two
+  // ----------------------------------------
+  // ----------------------------------------
+  // Sample three
+  // ----------------------------------------
+  var query = new Keen.Query("sum", {
+    eventCollection: "Shipped photos",
+    targetProperty: "photoCount",
+    timeframe: "this_30_days",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-03'), {
+     title: "Last 30 Days' Shipped Photos",
+   
+  });
+  // ----------------------------------------
+  // End sample three
+  // ----------------------------------------
+    
+    // ----------------------------------------
+  // Sample four
+  // ----------------------------------------
+
+    var query = new Keen.Query("sum", {
+    eventCollection: "Shipped photos",
+    interval: "monthly",
+    targetProperty: "photoCount",
+    timeframe: "last_6_months",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById("chart-04"), {
+    // Custom configuration here
+    title: "Previous 6 months",
+     chartType: "linechart"
+  });
+    
+  // ----------------------------------------
+  // End sample four
+  // ----------------------------------------
+    
+    
+    
+       // ----------------------------------------
+  // Sample five
+  // ----------------------------------------
+
+var query = new Keen.Query("count_unique", {
+    eventCollection: "Tagged a photo",
+    targetProperty: "userId",
+    timeframe: "this_30_days",
+   timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-05'), {
+    // Custom configuration here
+      title: "Last 30 Days' Active Users",
+  });
+    
+  // ----------------------------------------
+  // End sample five
+  // ----------------------------------------
+    
+    
+       // ----------------------------------------
+  // Sample six
+  // ----------------------------------------
+
+ var query = new Keen.Query("count_unique", {
+    eventCollection: "Tagged a photo",
+    interval: "monthly",
+    targetProperty: "userId",
+    timeframe: "previous_6_months",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-06'), {
+    // Custom configuration here
+      title: "Previous 6 months",
+     chartType: "linechart"
+  });
+    
+  // ----------------------------------------
+  // End sample six
+  // ----------------------------------------
+    
+    
+// ----------------------------------------
+  // Sample seven
+  // ----------------------------------------
+
+  var query = new Keen.Query("count_unique", {
+    eventCollection: "Signed up",
+    targetProperty: "userId",
+    timeframe: "this_30_days",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-07'), {
+    // Custom configuration here
+      title: "Last 30 Days' Singups",
+      chartType: "metric"
+  });
+    
+  // ----------------------------------------
+  // End sample seven
+  // ----------------------------------------
+    
+    
+       // ----------------------------------------
+  // Sample eight
+  // ----------------------------------------
+
+  var query = new Keen.Query("count_unique", {
+    eventCollection: "Signed up",
+    interval: "monthly",
+    targetProperty: "userId",
+    timeframe: "previous_6_months",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-08'), {
+    // Custom configuration here
+       title: "Previous 6 months",
+      chartType: "linechart"
+  });
+    
+  // ----------------------------------------
+  // End sample eight
+  // ----------------------------------------
+    
+        
+// ----------------------------------------
+  // Sample nine
+  // ----------------------------------------
+
+ var query = new Keen.Query("count_unique", {
+    eventCollection: "Stripe_Events",
+    filters: [
+    {
+        "operator": "gt",
+        "property_name": "data.object.charge",
+        "property_value": "0"
+    }
+],
+    targetProperty: "data.object.customer",
+    timeframe: "this_30_days",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-09'), {
+    // Custom configuration here
+      title: "Last 30 Days' Unique Customers [Stripe]",
+  });
+  // ----------------------------------------
+  // End sample nine
+  // ----------------------------------------
+    
+    
+       // ----------------------------------------
+  // Sample ten
+  // ----------------------------------------
+
+   var query = new Keen.Query("count_unique", {
+    eventCollection: "Stripe_Events",
+    filters: [
+    {
+        "operator": "gt",
+        "property_name": "data.object.charge",
+        "property_value": "0"
+    }
+],
+    interval: "monthly",
+    targetProperty: "data.object.customer",
+    timeframe: "previous_6_months",
+    timezone: "Australia/Sydney"
+  });
+  
+  client.draw(query, document.getElementById('chart-10'), {
+    // Custom configuration here
+       title: "Previous 6 months",
+      chartType: "linechart"
+      
+  });
+  // ----------------------------------------
+  // End sample ten
+  // ----------------------------------------
+    
+    
+});
+</script> 

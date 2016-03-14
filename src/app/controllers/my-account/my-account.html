@@ -37,8 +37,8 @@
 	    </div>
 	</div>
 
-    <div class="row photos ng-cloak" ng-model="myAccount.imageSets" ng-cloak>
-    	<div class="row" ng-switch on="myAccount.limitPlanUser">
+    <div class="photos ng-cloak" ng-switch on="myAccount.limitPlanUser" ng-model="myAccount.imageSets" ng-cloak>
+    	<div class="row" >
 		    <div class="col-xs-12" ng-switch-when="true">
 		    	<p>
 			    	<h2>Your photos</h2>
@@ -54,17 +54,16 @@
 				</p>
 		    </div>
 	    </div>
-    	<div class="row" ng-switch on="myAccount.hasPhotos">
-    		
-		    <div ng-switch-when="false">
+    	<div ng-switch on="myAccount.hasPhotos">
+    		<div class="row" ng-switch-when="false">
 		        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
 		        	<br/>
 		        	<p class="center">Oh no, doesn't look like we've got any of your photos yet! Remember, tell us what to print just mention <span class="bold">@printwithpixy</span> in your photo's <span class="bold">caption or comments</span>.</p>
 		        	<p class="bold">Need some help? <a href="http://www.printwithpixy.com/contact">Get in-touch</a></p>
 		     	</div>
 		    </div>
-		    <div ng-switch-default>
-		    	<div class="col-xs-12">
+		    <div class="row" ng-switch-default>
+		    	<div class="col-xs-12"t>
 			    	<p class="light italic">
 			    		These photos are updated every couple of hours. So if you don't see your photo, check back in a little while.<br/>If it's still not here, please <a href="http://www.printwithpixy.com/contact">get in-touch</a> and we'll sort it out for you.</p>
 			    	<p class="light italic">Click a photo below to view it on Instagram.</p>
