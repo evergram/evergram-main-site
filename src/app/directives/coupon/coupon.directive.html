@@ -1,0 +1,33 @@
+<div class="form-section-wrapper">
+    <span class="sub-heading">Do you have a coupon?</span>
+
+    <div class="field-list clear">
+        <form id="coupon" name="couponForm" role="form" novalidate ng-cloak>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group coupon-code inline-field-left" show-errors>
+                        <label class="control-label" for="couponcode">Coupon code</label>
+                        <input class="form-control"
+                               id="couponcode"
+                               name="couponcode"
+                               x-autocompletetype="couponcode"
+                               type="text"
+                               spellcheck="false"
+                               maxlength="30"
+                               data-title="CouponCode"
+                               required
+                               ng-model="referring_user"
+                               ng-model-options='{ debounce: 1000 }'
+                               ng-change='validateCoupon()'>
+
+                        <p ng-show="(couponForm.couponcode.$valid && !isValid)" class="help-block">
+                            Oops, looks like we don't recognise that coupon code.</p>
+                        <p ng-show="(isValid)" class="coupon-message">
+                          <!-- put result of couponcode entry here -->
+                          Awesome, this coupon entitles you to {{offer}}!
+                        </p>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
