@@ -13,8 +13,7 @@
             'PaymentService',
             'PlanService',
             'TrackingService',
-            'UserService',
-            'ReferringUserService'
+            'UserService'
         ];
     function SignupStep2Controller(lodash,
                                    $state,
@@ -22,11 +21,9 @@
                                    paymentService,
                                    planService,
                                    trackingService,
-                                   userService,
-                                   referringUserService) {
+                                   userService) {
         var vm = this;
         var plan = planService.getFromQueryString() || planService.getDefault();
-        var referring_user = referringUserService.getFromQueryString() || '';
         var deferred = $q.defer();
 
         vm.user = {};
@@ -44,7 +41,8 @@
         vm.forms = {
             customerDetails: {},
             addressDetails: {},
-            paymentDetails: {}
+            paymentDetails: {},
+            couponDetails: {}
         };
 
         // set the overlay promise
@@ -54,9 +52,6 @@
 
             // set the user plan
             vm.user.billing.option = plan.code;
-
-            // set referring user
-            vm.user.referringUser.instagramUsername = referring_user;
 
             if (!!vm.user.signupComplete) {
                 // redirect
@@ -86,6 +81,12 @@
 
             // if all valid
             if (isValid()) {
+
+                // set referring user (if available)
+                if(vm.forms.couponDetails.isValid()) {
+                    vm.user.referringUser.instagramUsername = vm.forms.couponDetails.getCoupon();
+                }
+
                 // update user
                 vm.user.put().
                 then(function() {
@@ -142,7 +143,8 @@
             // if all valid
             return vm.forms.customerDetails.isValid() &&
                 vm.forms.addressDetails.isValid() &&
-                vm.forms.paymentDetails.isValid();
+                vm.forms.paymentDetails.isValid() &&
+                vm.forms.couponDetails.isValid();
         }
 
         function setErrorMessage(message) {

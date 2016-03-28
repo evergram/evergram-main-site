@@ -50,33 +50,14 @@
                     title: 'Value pack',
                     code: 'VALUE100'
                 },
-                GIFT: {
-                    title: 'Gift Subscription',
-                    code: 'GIFT'
-                },
-                'KIDSPOT-LIMIT-10': {
-                    code: 'KIDSPOT-LIMIT-10'
-                },
                 'PROMO-LIMIT-10': {
                     code: 'PROMO-LIMIT-10'
-                },
-                'TREASURE-LIMIT-10': {
-                    code: 'TREASURE-LIMIT-10'
-                },
-                'BINDLE-LIMIT-10': {
-                    code: 'BINDLE-LIMIT-10'
                 },
                 'PROMO-LIMIT-20': {
                     code: 'PROMO-LIMIT-20'
                 },
                 'PROMOGIFT3': {
                     code: 'PROMOGIFT3'
-                },
-                'PROMO-LIMIT-50': {
-                    code: 'PROMO-LIMIT-50'
-                },
-                'APD-LIMIT-50': {
-                    code: 'APD-LIMIT-50'
                 },
                 PROMOGIFT12: {
                     code: 'PROMOGIFT12'
@@ -92,6 +73,59 @@
                 },
                 GIFT12: {
                     code: 'GIFT12'
+                }
+            },
+            REFERRINGUSER: {
+                'cazfilmerwrites': {
+                    offer: '$10 Pixy credit'
+                },
+                'ambermelody': {
+                    offer: '$10 Pixy credit'
+                },
+                'designisyay': {
+                    offer: '$10 Pixy credit'
+                },
+                'showandtellonline': {
+                    offer: '$10 Pixy credit'
+                },
+                'pinchmebeautiful': {
+                    offer: '$10 Pixy credit'
+                },
+                'adventuremumma': {
+                    offer: '$10 Pixy credit'
+                },
+                'sugercoatit': {
+                    offer: '$10 Pixy credit'
+                },
+                'inkedincolour': {
+                    offer: '$10 Pixy credit'
+                },
+                'thelebaneseplate': {
+                    offer: '$10 Pixy credit'
+                },
+                'kidgredients': {
+                    offer: '$10 Pixy credit'
+                },
+                'brendonthesmilingchef': {
+                    offer: '$10 Pixy credit'
+                },
+                'the.thud': {
+                    offer: '$10 Pixy credit'
+                },
+                'adventure.baby': {
+                    offer: '$10 Pixy credit'
+                },
+                'rarepearstudio': {
+                    offer: '$10 Pixy credit'
+                },
+                'cookerandalooker': {
+                    offer: '$10 Pixy credit'
+                },
+                'craftsmumship': {
+                    offer: '$10 Pixy credit'
+                },
+                'allornothing.au': {
+                    offer: '$10 Pixy credit'
                 }
             },
             QUERYSTRING: {
