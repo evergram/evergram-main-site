@@ -126,6 +126,18 @@
                 },
                 'allornothing.au': {
                     offer: '$10 Pixy credit'
+                },
+                'michaelandcarlene': {
+                    offer: '$10 Pixy credit'
+                },
+                'mini_haha': {
+                    offer: '$10 Pixy credit'
+                },
+                'rachael_tiernan': {
+                    offer: '$10 Pixy credit'
+                },
+                'thekidbucketlist': {
+                    offer: '$10 Pixy credit'
                 }
             },
             QUERYSTRING: {
@@ -135,6 +147,5 @@
                 PLAN: 'plan'
             }
         });
-
     /** @ngInject */
 })();
