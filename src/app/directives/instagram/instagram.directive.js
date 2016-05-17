@@ -21,6 +21,7 @@
                     var action;
                     var referringUser;
                     var plan = pixyConfig.PLANS.DEFAULT;
+                    var id;
 
                     // check for a plan in the querystring
                     var querystring = $location.search();
@@ -31,6 +32,11 @@
                     // check for a referring user in the querystring
                     if (!!querystring[pixyConfig.QUERYSTRING.REFERRING_USER]) {
                         referringUser = querystring[pixyConfig.QUERYSTRING.REFERRING_USER];
+                    }
+
+                    // check for a user id in the querystring (used for connect/change instagram username)
+                    if (!!querystring[pixyConfig.QUERYSTRING.ID]) {
+                        id = querystring[pixyConfig.QUERYSTRING.ID];
                     }
 
                     /**
@@ -60,6 +66,10 @@
 
                         if (!!referringUser) {
                             params[pixyConfig.QUERYSTRING.REFERRING_USER] = referringUser;
+                        }
+
+                        if (!!id) {
+                            params[pixyConfig.QUERYSTRING.ID] = id;
                         }
 
                         if (!!action) {
