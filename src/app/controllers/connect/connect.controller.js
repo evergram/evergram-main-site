@@ -9,14 +9,16 @@
         [
             '$window',
             '$httpParamSerializer',
-            'pixyConfig'
+            'pixyConfig',
+            '$location'
         ];
-    function ConnectController($window, $httpParamSerializer, pixyConfig) {
+    function ConnectController($window, $httpParamSerializer, pixyConfig, $location) {
         /*jshint unused: false*/
         var vm = this;
-        var params = {};
-        params[pixyConfig.QUERYSTRING.REDIRECT_URL] = pixyConfig.ENDPOINTS.CONNECT_COMPLETE;
+        var querystring = $location.search();
 
-        $window.location.href = pixyConfig.ENDPOINTS.INSTAGRAM.CONNECT + '&' + $httpParamSerializer(params);
+        if (!!querystring.err) {
+            vm.error = $window.decodeURIComponent(querystring.err);
+        }
     }
 })();

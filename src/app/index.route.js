@@ -54,7 +54,7 @@
                 url: '/connect-complete',
                 templateUrl: 'app/controllers/connect-complete/connect-complete.html',
                 controller: 'ConnectCompleteController',
-                controllerAs: 'connect'
+                controllerAs: 'connectComplete'
             })
             .state('failed', {
                 url: '/failed',

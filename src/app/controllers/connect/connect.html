@@ -1,8 +1,17 @@
 <div class="container">
     <div class="row content-area">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 center">
-            <h1>Redirecting to Instagram</h1>
-            <span class="sub-heading">Please wait while we redirect you to Instagram to complete the authorization process.</span>
+            <span class="sub-heading">Connect</span>
+
+            <h1>Change your Instagram Account</h1>
+            <p>
+			    Want to use a different Instagram account for Pixy? Just click the button below can follow the steps to allow Pixy to access your new account.
+			</p>
+            <instagram button-img-src="assets/images/connect-button.png" action="reauth" redirect-to="connect-complete"></instagram>
+            <div ng-show="connect.error" class="error-summary">
+		    	<span class="sub-heading" ng-bind-html="connect.error"></span>
+		    	<p ng-bind-html="connect.error"></p>
+		    </div>
         </div>
     </div>
 </div>
